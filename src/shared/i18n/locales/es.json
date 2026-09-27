@@ -60,7 +60,8 @@
   "study": {
     "title": "Teoría",
     "description": "Apuntes y formularios por unidad, reescritos en lenguaje propio.",
-    "comingSoon": "Las unidades se habilitan a medida que se revisa el material."
+    "comingSoon": "Las unidades se habilitan a medida que se revisa el material.",
+    "theoryPending": "Teoría en preparación"
   },
   "practice": {
     "title": "Práctica",

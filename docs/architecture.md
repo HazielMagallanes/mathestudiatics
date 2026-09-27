@@ -79,12 +79,30 @@ sequenceDiagram
   P->>K: render answers + worked steps
 ```
 
+## Content packs / Paquetes de contenido
+
+A unit is a folder under `src/content/units/`; the registry discovers it automatically:
+
+```
+src/content/units/<unit>/index.ts        # default-exports a UnitDefinition
+src/content/units/<unit>/generators/*.ts # pure, seeded exercise generators
+```
+
+Each generator returns bilingual templates plus machine-checkable answers and worked
+steps. Tests run every generator across seeds and verify the answers with an
+independent LaTeX oracle — see [ADR 0003](adr/0003-content-packs-and-seeded-generators/README.md).
+
+Cada unidad es una carpeta bajo `src/content/units/`; el registro la descubre sola.
+Cada generador devuelve plantillas bilingües con respuestas verificables y pasos
+resueltos; los tests validan las respuestas con un oráculo de LaTeX independiente.
+
 ## Key decisions / Decisiones clave
 
-| Topic                        | ADR                                                      |
-| ---------------------------- | -------------------------------------------------------- |
-| Static SPA on Vite + React   | [ADR 0001](adr/0001-static-react-spa-vite/README.md)     |
-| Hash routing on GitHub Pages | [ADR 0002](adr/0002-hash-routing-github-pages/README.md) |
+| Topic                               | ADR                                                                |
+| ----------------------------------- | ------------------------------------------------------------------ |
+| Static SPA on Vite + React          | [ADR 0001](adr/0001-static-react-spa-vite/README.md)               |
+| Hash routing on GitHub Pages        | [ADR 0002](adr/0002-hash-routing-github-pages/README.md)           |
+| Content packs and seeded generators | [ADR 0003](adr/0003-content-packs-and-seeded-generators/README.md) |
 
 ## Non-functional constraints / Restricciones no funcionales
 

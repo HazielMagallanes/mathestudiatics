@@ -60,7 +60,8 @@
   "study": {
     "title": "Theory",
     "description": "Notes and formula sheets per unit, rewritten in our own words.",
-    "comingSoon": "Units are enabled as the material is reviewed."
+    "comingSoon": "Units are enabled as the material is reviewed.",
+    "theoryPending": "Theory in preparation"
   },
   "practice": {
     "title": "Practice",
