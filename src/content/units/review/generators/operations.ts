@@ -13,7 +13,7 @@ import { template } from '@/content/blocks/templates'
 import type { Rng } from '@/content/rng'
 import type { ExerciseContent, ExerciseGenerator, LocalizedAnswer } from '@/content/schema'
 
-import { fractionAnswer, step } from './shared'
+import { fractionAnswer, step } from '@/content/blocks/answers'
 
 type AddSubtractOperator = '+' | '-'
 type MultiplyDivideOperator = '·' | ':'

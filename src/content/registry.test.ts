@@ -155,6 +155,15 @@ describe('generator conformance', () => {
             checkLatex(part.answer.latex, `${generator.id} answer`)
             expect(part.answer.latex, `${generator.id} has an empty answer`).not.toBe('')
 
+            if (part.answer.latexByLocale) {
+              for (const locale of LOCALES) {
+                const localized = part.answer.latexByLocale[locale]
+
+                expect(localized, `${generator.id} answer (${locale})`).not.toBe('')
+                checkLatex(localized, `${generator.id} answer (${locale})`)
+              }
+            }
+
             for (const step of part.steps) {
               checkLatex(step.latex, `${generator.id} step`)
             }

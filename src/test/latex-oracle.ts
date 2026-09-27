@@ -835,3 +835,55 @@ export function solveInequality(latex: string): IntervalResult {
 
   return rest.reduce(intersect, first)
 }
+
+function polynomialAt(value: Polynomial, x: number): Rational {
+  return rAdd(rMul(value.a, rational(x)), value.b)
+}
+
+/**
+ * Evaluates a predicate in x at a concrete value:
+ * `x + 3 = 10`, `2x - 1 \le 5`, `x \ge -2`, `-1 \le x \lt 4`.
+ */
+export function evaluatePredicateAt(latex: string, x: number): boolean {
+  const hasComparison = /\\le|\\ge|\\lt|\\gt|[<>]/.test(latex)
+
+  if (!hasComparison) {
+    const [leftLatex, rightLatex] = splitOnce(latex, '=')
+    const left = parseLinear(leftLatex)
+    const right = parseLinear(rightLatex)
+
+    return rEquals(polynomialAt(left, x), polynomialAt(right, x))
+  }
+
+  const { parts, operators } = splitComparisonChain(latex)
+
+  if (parts.length !== operators.length + 1) {
+    throw new Error(`Oracle: malformed predicate "${latex}"`)
+  }
+
+  for (let index = 0; index < operators.length; index += 1) {
+    const left = parseLinear(parts[index] ?? '')
+    const right = parseLinear(parts[index + 1] ?? '')
+    const comparison = rCompare(polynomialAt(left, x), polynomialAt(right, x))
+    const operator = operators[index]
+
+    if (!operator) {
+      throw new Error('Oracle: missing comparison operator')
+    }
+
+    const satisfied =
+      operator === '<'
+        ? comparison < 0
+        : operator === '<='
+          ? comparison <= 0
+          : operator === '>'
+            ? comparison > 0
+            : comparison >= 0
+
+    if (!satisfied) {
+      return false
+    }
+  }
+
+  return true
+}

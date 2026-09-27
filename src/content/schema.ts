@@ -36,6 +36,8 @@ export type AnswerValue =
 
 export interface LocalizedAnswer {
   latex: string
+  /** Per-language rendering when the answer contains words (e.g. "Tautología"). */
+  latexByLocale?: LocalizedText
   /** Machine-checkable form, used by tests today and by self-check later. */
   value?: AnswerValue
   note?: LocalizedText

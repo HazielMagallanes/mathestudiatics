@@ -3,7 +3,7 @@ import { template } from '@/content/blocks/templates'
 import type { Rng } from '@/content/rng'
 import type { ExerciseContent, ExerciseGenerator } from '@/content/schema'
 
-import { fractionAnswer, integerAnswer, radicalAnswer, step } from './shared'
+import { fractionAnswer, integerAnswer, radicalAnswer, step } from '@/content/blocks/answers'
 
 function isSquareFree(value: number): boolean {
   for (let factor = 2; factor * factor <= value; factor += 1) {

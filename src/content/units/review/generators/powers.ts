@@ -3,7 +3,7 @@ import { template } from '@/content/blocks/templates'
 import type { Rng } from '@/content/rng'
 import type { ExerciseContent, ExerciseGenerator } from '@/content/schema'
 
-import { fractionAnswer, integerAnswer, step } from './shared'
+import { fractionAnswer, integerAnswer, step } from '@/content/blocks/answers'
 
 function signedPowerLatex(base: number, exponent: number): string {
   const formattedBase = base < 0 ? `\\left(${String(base)}\\right)` : String(base)

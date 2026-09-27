@@ -2,7 +2,7 @@ import { template } from '@/content/blocks/templates'
 import type { Rng } from '@/content/rng'
 import type { ExerciseContent, ExerciseGenerator, LocalizedText } from '@/content/schema'
 
-import { intervalAnswer, step } from './shared'
+import { intervalAnswer, step } from '@/content/blocks/answers'
 
 type Comparison = '\\lt' | '\\gt' | '\\le' | '\\ge'
 

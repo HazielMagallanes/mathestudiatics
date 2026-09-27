@@ -3,6 +3,7 @@ import {
   fractionLatex,
   intervalLatex,
   radicalLatex,
+  setLatex,
   type IntervalBounds,
 } from '@/content/blocks/latex'
 import type { LocalizedAnswer, LocalizedText } from '@/content/schema'
@@ -50,6 +51,39 @@ export function intervalAnswer(bounds: IntervalBounds, note?: LocalizedText): Lo
       toInclusive: bounds.toInclusive,
     },
     ...(note ? { note } : {}),
+  }
+}
+
+export function setAnswer(values: readonly number[], note?: LocalizedText): LocalizedAnswer {
+  return {
+    latex: setLatex(values),
+    value: { kind: 'set', values: [...values].sort((a, b) => a - b) },
+    ...(note ? { note } : {}),
+  }
+}
+
+export function booleanAnswer(value: boolean, note?: LocalizedText): LocalizedAnswer {
+  return {
+    latex: value ? 'V' : 'F',
+    latexByLocale: {
+      es: value ? '\\text{Verdadero}' : '\\text{Falso}',
+      en: value ? '\\text{True}' : '\\text{False}',
+    },
+    value: { kind: 'boolean', value },
+    ...(note ? { note } : {}),
+  }
+}
+
+export function textAnswer(
+  value: string,
+  latex: string,
+  options?: { note?: LocalizedText; latexByLocale?: LocalizedText },
+): LocalizedAnswer {
+  return {
+    latex,
+    value: { kind: 'text', value },
+    ...(options?.latexByLocale ? { latexByLocale: options.latexByLocale } : {}),
+    ...(options?.note ? { note: options.note } : {}),
   }
 }
 

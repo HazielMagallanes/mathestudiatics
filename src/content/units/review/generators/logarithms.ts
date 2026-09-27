@@ -2,7 +2,7 @@ import { template } from '@/content/blocks/templates'
 import type { Rng } from '@/content/rng'
 import type { ExerciseContent, ExerciseGenerator, LocalizedTemplate } from '@/content/schema'
 
-import { integerAnswer, step } from './shared'
+import { integerAnswer, step } from '@/content/blocks/answers'
 
 const BASES = [2, 3, 5, 10] as const
 
