@@ -65,8 +65,41 @@
   },
   "practice": {
     "title": "Práctica",
-    "description": "Ejercicios generados al azar según las unidades y la dificultad que elijas.",
-    "comingSoon": "El generador de ejercicios llega en la próxima etapa."
+    "description": "Elegí una o dos unidades y una dificultad: el ejercicio se genera solo.",
+    "selectUnits": "Unidades (hasta dos)",
+    "difficulty": "Dificultad",
+    "mix": "Mezcla",
+    "mixOptions": {
+      "balanced": "Equilibrada",
+      "single": "Solo de una unidad",
+      "combined": "Solo combinados"
+    },
+    "difficulties": {
+      "easy": "Fácil",
+      "medium": "Intermedia",
+      "hard": "Difícil"
+    },
+    "generate": "Generar ejercicio",
+    "newExercise": "Otro ejercicio",
+    "copyLink": "Copiar enlace",
+    "linkCopied": "Enlace copiado",
+    "answer": "Ver respuesta",
+    "steps": "Ver resolución",
+    "seed": "Semilla",
+    "combined": "Combinado",
+    "noGenerator": "Todavía no hay ejercicios para esa combinación. Probá otra dificultad u otra unidad.",
+    "history": {
+      "title": "Historial",
+      "empty": "Todavía no generaste ejercicios.",
+      "open": "Abrir",
+      "solved": "Resuelto",
+      "review": "Repasar",
+      "clear": "Borrar historial",
+      "export": "Exportar datos",
+      "import": "Importar datos",
+      "imported": "Se importaron {{count}} ejercicios",
+      "stats": "{{total}} ejercicios · {{solved}} resueltos · {{review}} para repasar"
+    }
   },
   "tools": {
     "title": "Herramientas",

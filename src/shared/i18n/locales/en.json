@@ -65,8 +65,41 @@
   },
   "practice": {
     "title": "Practice",
-    "description": "Exercises randomly generated from the units and difficulty you choose.",
-    "comingSoon": "The exercise generator arrives in the next stage."
+    "description": "Pick one or two units and a difficulty: the exercise generates itself.",
+    "selectUnits": "Units (up to two)",
+    "difficulty": "Difficulty",
+    "mix": "Mix",
+    "mixOptions": {
+      "balanced": "Balanced",
+      "single": "Single unit only",
+      "combined": "Combined only"
+    },
+    "difficulties": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    },
+    "generate": "Generate exercise",
+    "newExercise": "Another exercise",
+    "copyLink": "Copy link",
+    "linkCopied": "Link copied",
+    "answer": "Show answer",
+    "steps": "Show solution",
+    "seed": "Seed",
+    "combined": "Combined",
+    "noGenerator": "There are no exercises for that combination yet. Try another difficulty or unit.",
+    "history": {
+      "title": "History",
+      "empty": "You have not generated any exercises yet.",
+      "open": "Open",
+      "solved": "Solved",
+      "review": "Review",
+      "clear": "Clear history",
+      "export": "Export data",
+      "import": "Import data",
+      "imported": "Imported {{count}} exercises",
+      "stats": "{{total}} exercises · {{solved}} solved · {{review}} to review"
+    }
   },
   "tools": {
     "title": "Tools",

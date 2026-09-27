@@ -1,6 +1,8 @@
 import type { Rng } from '@/content/rng'
 import type { Difficulty, ExerciseGenerator, UnitId } from '@/content/schema'
 
+export const MIX_PREFERENCES = ['balanced', 'single', 'combined'] as const
+
 /**
  * How the selector balances regular and combined generators when two units
  * are selected:
@@ -8,7 +10,11 @@ import type { Difficulty, ExerciseGenerator, UnitId } from '@/content/schema'
  * - `combined`: only combined exercises (falls back to single when none exist),
  * - `balanced`: single-unit exercises favoured at ~60%.
  */
-export type MixPreference = 'balanced' | 'single' | 'combined'
+export type MixPreference = (typeof MIX_PREFERENCES)[number]
+
+export function isMixPreference(value: unknown): value is MixPreference {
+  return typeof value === 'string' && (MIX_PREFERENCES as readonly string[]).includes(value)
+}
 
 export interface GeneratorQuery {
   units: readonly UnitId[]
