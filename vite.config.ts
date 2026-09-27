@@ -1,4 +1,5 @@
 import { fileURLToPath } from 'node:url'
+import { createHash } from 'node:crypto'
 
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
@@ -7,9 +8,25 @@ import type { Plugin } from 'vite'
 
 /**
  * GitHub Pages serves this project from https://<user>.github.io/<repo>/.
- * Local dev runs from the root path.
+ * Local dev runs from the root path; preview simulates the deployed base.
  */
 const GITHUB_PAGES_BASE = '/mathestudiatics/'
+
+/**
+ * Computes CSP hashes for inline scripts so the theme bootstrap can run
+ * before first paint without weakening `script-src`.
+ */
+function inlineScriptHashes(html: string): string[] {
+  const hashes: string[] = []
+  const scriptPattern = /<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi
+
+  for (const match of html.matchAll(scriptPattern)) {
+    const code = match[1] ?? ''
+    hashes.push(`'sha256-${createHash('sha256').update(code).digest('base64')}'`)
+  }
+
+  return hashes
+}
 
 /**
  * Injects a Content-Security-Policy meta tag into production builds only.
@@ -21,22 +38,24 @@ const GITHUB_PAGES_BASE = '/mathestudiatics/'
  * No third-party origins are allowed anywhere (the app is fully self-hosted).
  */
 function contentSecurityPolicy(): Plugin {
-  const policy = [
-    "default-src 'self'",
-    "script-src 'self'",
-    "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data: blob:",
-    "font-src 'self' data:",
-    "connect-src 'self'",
-    "object-src 'none'",
-    "base-uri 'self'",
-    "form-action 'none'",
-  ].join('; ')
-
   return {
     name: 'inject-csp',
     apply: 'build',
-    transformIndexHtml() {
+    enforce: 'post',
+    transformIndexHtml(html) {
+      const scriptSrc = ["'self'", ...inlineScriptHashes(html)].join(' ')
+      const policy = [
+        "default-src 'self'",
+        `script-src ${scriptSrc}`,
+        "style-src 'self' 'unsafe-inline'",
+        "img-src 'self' data: blob:",
+        "font-src 'self' data:",
+        "connect-src 'self'",
+        "object-src 'none'",
+        "base-uri 'self'",
+        "form-action 'none'",
+      ].join('; ')
+
       return [
         {
           tag: 'meta',

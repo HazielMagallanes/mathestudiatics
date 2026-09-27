@@ -1,0 +1,117 @@
+{
+  "app": {
+    "name": "Mathestudiatics",
+    "tagline": "Estudiá matemática desde cualquier dispositivo"
+  },
+  "common": {
+    "opensInNewTab": "(se abre en una pestaña nueva)",
+    "comingSoon": "Próximamente",
+    "loading": "Cargando…"
+  },
+  "nav": {
+    "home": "Inicio",
+    "study": "Teoría",
+    "practice": "Práctica",
+    "tools": "Herramientas",
+    "about": "Acerca de",
+    "skipToContent": "Saltar al contenido",
+    "menu": "Menú",
+    "mobileMenu": "Menú (móvil)"
+  },
+  "locale": {
+    "label": "Idioma",
+    "es": "Español",
+    "en": "English"
+  },
+  "theme": {
+    "label": "Tema",
+    "light": "Claro",
+    "dark": "Oscuro",
+    "system": "Sistema"
+  },
+  "home": {
+    "title": "Matemática, a tu ritmo",
+    "subtitle": "Teoría clara, ejercicios generados al azar para practicar sin límite y una pizarra para resolverlos como en papel.",
+    "cards": {
+      "study": {
+        "title": "Teoría",
+        "description": "Apuntes y formularios por unidad, reescritos en lenguaje propio.",
+        "cta": "Ver unidades"
+      },
+      "practice": {
+        "title": "Práctica",
+        "description": "Elegí una o dos unidades y una dificultad: el ejercicio se genera solo.",
+        "cta": "Generar ejercicios"
+      },
+      "tools": {
+        "title": "Herramientas",
+        "description": "Pizarra, calculadora científica y acceso rápido a GeoGebra.",
+        "cta": "Abrir herramientas"
+      }
+    },
+    "how": {
+      "title": "Cómo funciona",
+      "step1": "Elegí una o dos unidades y la dificultad.",
+      "step2": "Resolvé en la pizarra, con la calculadora a mano.",
+      "step3": "Comprobá la respuesta y la solución paso a paso."
+    },
+    "offline": "Funciona sin conexión y no recopila datos: todo queda en tu dispositivo."
+  },
+  "study": {
+    "title": "Teoría",
+    "description": "Apuntes y formularios por unidad, reescritos en lenguaje propio.",
+    "comingSoon": "Las unidades se habilitan a medida que se revisa el material."
+  },
+  "practice": {
+    "title": "Práctica",
+    "description": "Ejercicios generados al azar según las unidades y la dificultad que elijas.",
+    "comingSoon": "El generador de ejercicios llega en la próxima etapa."
+  },
+  "tools": {
+    "title": "Herramientas",
+    "description": "Todo lo necesario para resolver, sin salir del navegador.",
+    "whiteboard": {
+      "title": "Pizarra",
+      "description": "Resolvé a mano o con el teclado: figuras, texto y fórmulas."
+    },
+    "calculator": {
+      "title": "Calculadora científica",
+      "description": "Operaciones, funciones y memoria, con historial."
+    },
+    "geogebra": {
+      "title": "GeoGebra",
+      "description": "Abrí las apps de GeoGebra para graficar o calcular.",
+      "graphing": "Graficadora",
+      "classic": "Clásica",
+      "scientific": "Calculadora",
+      "geometry": "Geometría"
+    }
+  },
+  "about": {
+    "title": "Acerca de",
+    "intro": "Mathestudiatics es una plataforma personal, bilingüe y de código abierto para estudiar matemática desde cualquier dispositivo.",
+    "content": {
+      "title": "Contenido y anonimato",
+      "body": "El material de estudio se reescribe en lenguaje propio y sin datos identificatorios: no se publican nombres propios, instituciones ni material original."
+    },
+    "privacy": {
+      "title": "Privacidad",
+      "body": "No hay cuentas, ni rastreo, ni servidores: los datos de estudio quedan en tu dispositivo."
+    },
+    "license": {
+      "title": "Licencias",
+      "body": "El código se distribuye bajo licencia MIT y el contenido bajo CC BY-SA 4.0."
+    },
+    "repo": "Código fuente",
+    "issues": "Reportar un problema"
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "description": "La dirección no corresponde a ninguna sección.",
+    "back": "Volver al inicio"
+  },
+  "footer": {
+    "license": "Código MIT · Contenido CC BY-SA 4.0",
+    "source": "Código fuente en GitHub"
+  }
+}

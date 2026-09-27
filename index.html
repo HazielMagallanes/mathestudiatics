@@ -10,6 +10,21 @@
     />
     <meta name="theme-color" content="#1e2a44" />
     <title>Mathestudiatics</title>
+    <script>
+      /* Applies the stored theme before first paint to avoid a light/dark flash.
+         The build injects its CSP hash automatically (see vite.config.ts). */
+      ;(function () {
+        try {
+          var stored = localStorage.getItem('mathestudiatics.theme')
+          var dark =
+            stored === 'dark' ||
+            (stored !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+          document.documentElement.classList.toggle('dark', dark)
+        } catch {
+          /* preferences are best-effort */
+        }
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

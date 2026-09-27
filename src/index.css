@@ -1,3 +1,96 @@
 @import 'tailwindcss';
 
-/* Design tokens are defined in M1 (academic editorial theme). */
+/* Manual dark mode: the ThemeProvider toggles `.dark` on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Source Serif 4 Variable', ui-serif, Georgia, serif;
+
+  /* Academic palette: ink navy + ivory paper + burgundy accent */
+  --color-paper-50: #fbf9f4;
+  --color-paper-100: #f5f0e6;
+  --color-paper-200: #eae1d0;
+  --color-ink-50: #f4f6fa;
+  --color-ink-100: #e5eaf3;
+  --color-ink-200: #c8d1e2;
+  --color-ink-300: #a2b0c9;
+  --color-ink-400: #74849f;
+  --color-ink-500: #526180;
+  --color-ink-600: #3d4a66;
+  --color-ink-700: #2e3a52;
+  --color-ink-800: #232d42;
+  --color-ink-900: #1e2a44;
+  --color-ink-950: #111726;
+  --color-burgundy-300: #dc9aa2;
+  --color-burgundy-400: #c05a67;
+  --color-burgundy-500: #a8434f;
+  --color-burgundy-600: #8a2f3b;
+  --color-burgundy-700: #6f2530;
+}
+
+/* Semantic tokens resolved per theme (see :root / .dark below). */
+@theme inline {
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-rule: var(--rule);
+  --color-primary: var(--primary);
+  --color-primary-contrast: var(--primary-contrast);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-focus: var(--focus);
+}
+
+:root {
+  color-scheme: light;
+
+  --surface: var(--color-paper-50);
+  --surface-raised: #ffffff;
+  --fg: var(--color-ink-950);
+  --fg-muted: var(--color-ink-600);
+  --rule: var(--color-ink-200);
+  --primary: var(--color-ink-900);
+  --primary-contrast: var(--color-paper-50);
+  --accent: var(--color-burgundy-600);
+  --accent-strong: var(--color-burgundy-700);
+  --focus: var(--color-burgundy-600);
+}
+
+.dark {
+  color-scheme: dark;
+
+  --surface: #10151f;
+  --surface-raised: #161d2b;
+  --fg: var(--color-ink-50);
+  --fg-muted: var(--color-ink-300);
+  --rule: #2a3448;
+  --primary: var(--color-ink-100);
+  --primary-contrast: var(--color-ink-950);
+  --accent: var(--color-burgundy-400);
+  --accent-strong: var(--color-burgundy-300);
+  --focus: var(--color-burgundy-400);
+}
+
+@layer base {
+  body {
+    @apply bg-surface font-sans text-base leading-relaxed text-fg antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-serif text-fg;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: var(--color-burgundy-100, #f3dfe1);
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "app": {
+    "name": "Mathestudiatics",
+    "tagline": "Study math from any device"
+  },
+  "common": {
+    "opensInNewTab": "(opens in a new tab)",
+    "comingSoon": "Coming soon",
+    "loading": "Loading…"
+  },
+  "nav": {
+    "home": "Home",
+    "study": "Theory",
+    "practice": "Practice",
+    "tools": "Tools",
+    "about": "About",
+    "skipToContent": "Skip to content",
+    "menu": "Menu",
+    "mobileMenu": "Menu (mobile)"
+  },
+  "locale": {
+    "label": "Language",
+    "es": "Español",
+    "en": "English"
+  },
+  "theme": {
+    "label": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "home": {
+    "title": "Math, at your own pace",
+    "subtitle": "Clear theory, endlessly generated practice exercises and a whiteboard to solve them like on paper.",
+    "cards": {
+      "study": {
+        "title": "Theory",
+        "description": "Notes and formula sheets per unit, rewritten in our own words.",
+        "cta": "Browse units"
+      },
+      "practice": {
+        "title": "Practice",
+        "description": "Pick one or two units and a difficulty: the exercise generates itself.",
+        "cta": "Generate exercises"
+      },
+      "tools": {
+        "title": "Tools",
+        "description": "Whiteboard, scientific calculator and quick access to GeoGebra.",
+        "cta": "Open tools"
+      }
+    },
+    "how": {
+      "title": "How it works",
+      "step1": "Pick one or two units and the difficulty.",
+      "step2": "Solve it on the whiteboard, calculator at hand.",
+      "step3": "Check the answer and the step-by-step solution."
+    },
+    "offline": "Works offline and collects no data: everything stays on your device."
+  },
+  "study": {
+    "title": "Theory",
+    "description": "Notes and formula sheets per unit, rewritten in our own words.",
+    "comingSoon": "Units are enabled as the material is reviewed."
+  },
+  "practice": {
+    "title": "Practice",
+    "description": "Exercises randomly generated from the units and difficulty you choose.",
+    "comingSoon": "The exercise generator arrives in the next stage."
+  },
+  "tools": {
+    "title": "Tools",
+    "description": "Everything you need to solve, without leaving the browser.",
+    "whiteboard": {
+      "title": "Whiteboard",
+      "description": "Solve by hand or with the keyboard: shapes, text and formulas."
+    },
+    "calculator": {
+      "title": "Scientific calculator",
+      "description": "Operations, functions and memory, with history."
+    },
+    "geogebra": {
+      "title": "GeoGebra",
+      "description": "Open GeoGebra apps to plot graphs or compute.",
+      "graphing": "Graphing",
+      "classic": "Classic",
+      "scientific": "Calculator",
+      "geometry": "Geometry"
+    }
+  },
+  "about": {
+    "title": "About",
+    "intro": "Mathestudiatics is a personal, bilingual, open-source platform to study math from any device.",
+    "content": {
+      "title": "Content and anonymity",
+      "body": "Study material is rewritten in our own words and without identifying data: no personal names, institutions or original material are published."
+    },
+    "privacy": {
+      "title": "Privacy",
+      "body": "No accounts, no tracking, no servers: study data stays on your device."
+    },
+    "license": {
+      "title": "Licenses",
+      "body": "Code is distributed under the MIT license and content under CC BY-SA 4.0."
+    },
+    "repo": "Source code",
+    "issues": "Report an issue"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "That address does not match any section.",
+    "back": "Back to home"
+  },
+  "footer": {
+    "license": "Code MIT · Content CC BY-SA 4.0",
+    "source": "Source code on GitHub"
+  }
+}

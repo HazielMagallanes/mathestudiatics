@@ -45,5 +45,12 @@ export default tseslint.config(
       globals: globals.node,
     },
   },
+  {
+    files: ['src/app/router.tsx'],
+    rules: {
+      // The route table intentionally exports non-component values (routes, factory).
+      'react-refresh/only-export-components': 'off',
+    },
+  },
   eslintConfigPrettier,
 )
