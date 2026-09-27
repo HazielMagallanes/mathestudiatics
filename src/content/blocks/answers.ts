@@ -4,6 +4,7 @@ import {
   intervalLatex,
   radicalLatex,
   setLatex,
+  vectorLatex,
   type IntervalBounds,
 } from '@/content/blocks/latex'
 import type { LocalizedAnswer, LocalizedText } from '@/content/schema'
@@ -84,6 +85,24 @@ export function textAnswer(
     value: { kind: 'text', value },
     ...(options?.latexByLocale ? { latexByLocale: options.latexByLocale } : {}),
     ...(options?.note ? { note: options.note } : {}),
+  }
+}
+
+export function vectorAnswer(components: readonly number[], note?: LocalizedText): LocalizedAnswer {
+  return {
+    latex: vectorLatex(components),
+    value: { kind: 'vector', components: [...components] },
+    ...(note ? { note } : {}),
+  }
+}
+
+export function decimalAnswer(value: number, digits = 2, note?: LocalizedText): LocalizedAnswer {
+  const rounded = Number(value.toFixed(digits))
+
+  return {
+    latex: String(rounded).replace('.', '{,}'),
+    value: { kind: 'decimal', value: rounded },
+    ...(note ? { note } : {}),
   }
 }
 

@@ -64,6 +64,32 @@ export function setLatex(values: readonly number[], options?: { empty?: string }
   return `\\left\\{${values.join(',\\, ')}\\right\\}`
 }
 
+/** `\left(3,\, -4\right)` for 2D and 3D vectors. */
+export function vectorLatex(components: readonly number[]): string {
+  return `\\left(${components.join(',\\, ')}\\right)`
+}
+
+/**
+ * Formats a rational multiple of π as LaTeX: `1/6 → \frac{\pi}{6}`,
+ * `1 → \pi`, `0 → 0`, `2 → 2\pi`.
+ */
+export function piFractionLatex(numerator: number, denominator = 1): string {
+  if (numerator === 0) {
+    return '0'
+  }
+
+  const sign = numerator < 0 ? '-' : ''
+  const absolute = Math.abs(numerator)
+
+  if (denominator === 1) {
+    return absolute === 1 ? `${sign}\\pi` : `${sign}${String(absolute)}\\pi`
+  }
+
+  const prefix = absolute === 1 ? '' : String(absolute)
+
+  return `${sign}\\frac{${prefix}\\pi}{${String(denominator)}}`
+}
+
 /**
  * Rewrites an integer as a squared factor times the remaining radicand:
  * `72 → { outside: 6, inside: 2 }` because 72 = 6² · 2.

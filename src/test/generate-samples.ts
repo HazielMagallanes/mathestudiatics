@@ -1,5 +1,11 @@
 import { generateExerciseFrom } from '@/content/generate'
-import type { Exercise, ExerciseGenerator, ExercisePart, TemplateParams } from '@/content/schema'
+import type {
+  Exercise,
+  ExerciseGenerator,
+  ExercisePart,
+  LocalizedAnswer,
+  TemplateParams,
+} from '@/content/schema'
 
 /** Deterministically samples exercises from a single generator. */
 export function generateSamples(generator: ExerciseGenerator, count = 60): Exercise[] {
@@ -28,8 +34,36 @@ export function partOf(exercise: Exercise): ExercisePart {
   return part
 }
 
+export function partAt(exercise: Exercise, index: number): ExercisePart {
+  const part = exercise.parts[index]
+
+  if (!part) {
+    throw new Error(`exercise has no part at index ${String(index)}`)
+  }
+
+  return part
+}
+
+export function answerValueOf(
+  source: Exercise | ExercisePart,
+): NonNullable<LocalizedAnswer['value']> {
+  const part = 'answer' in source ? source : partOf(source)
+  const value = part.answer.value
+
+  if (!value) {
+    throw new Error('answer has no machine-checkable value')
+  }
+
+  return value
+}
+
 export function paramsOf(exercise: Exercise): TemplateParams {
   return partOf(exercise).prompt.params
+}
+
+/** Parameters of the shared intro, when the exercise has one. */
+export function introParamsOf(exercise: Exercise): TemplateParams {
+  return exercise.intro?.params ?? {}
 }
 
 function rawParam(exercise: Exercise, key: string): string | number {
@@ -113,4 +147,37 @@ export function intervalAnswerValue(exercise: Exercise): {
   }
 
   return value
+}
+
+export function fractionAnswerValue(exercise: Exercise): {
+  numerator: number
+  denominator: number
+} {
+  const value = partOf(exercise).answer.value
+
+  if (value?.kind !== 'fraction') {
+    throw new Error('expected a fraction answer')
+  }
+
+  return { numerator: value.numerator, denominator: value.denominator }
+}
+
+export function vectorAnswerValue(exercise: Exercise): number[] {
+  const value = partOf(exercise).answer.value
+
+  if (value?.kind !== 'vector') {
+    throw new Error('expected a vector answer')
+  }
+
+  return [...value.components]
+}
+
+export function decimalAnswerValue(exercise: Exercise): number {
+  const value = partOf(exercise).answer.value
+
+  if (value?.kind !== 'decimal') {
+    throw new Error('expected a decimal answer')
+  }
+
+  return value.value
 }

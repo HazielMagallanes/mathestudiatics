@@ -23,6 +23,7 @@ export type AnswerValue =
   | { kind: 'fraction'; numerator: number; denominator: number }
   | { kind: 'decimal'; value: number }
   | { kind: 'radical'; coefficient: number; radicand: number }
+  | { kind: 'vector'; components: readonly number[] }
   | {
       kind: 'interval'
       from: number | null

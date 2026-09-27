@@ -49,7 +49,10 @@ function checkTemplate(value: LocalizedTemplate, context: string): void {
 }
 
 function checkLatex(latex: string, context: string): void {
-  expect(latex, `${context} must not contain invalid values`).not.toMatch(/undefined|NaN/)
+  // `\text{...}` may legitimately contain words like "undefined".
+  const withoutText = latex.replace(/\\text\{[^}]*\}/g, '')
+
+  expect(withoutText, `${context} must not contain invalid values`).not.toMatch(/undefined|NaN/)
 
   if (latex === '') {
     return
@@ -182,7 +185,9 @@ describe('generator conformance', () => {
 
       it('varies across seeds', () => {
         const prompts = new Set(
-          exercises.map((exercise) => JSON.stringify(exercise.parts[0]?.prompt ?? {})),
+          exercises.map((exercise) =>
+            JSON.stringify({ intro: exercise.intro ?? null, parts: exercise.parts }),
+          ),
         )
 
         expect(
