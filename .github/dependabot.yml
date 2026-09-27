@@ -10,6 +10,10 @@ updates:
     cooldown:
       default-days: 7
     open-pull-requests-limit: 10
+    ignore:
+      # Keep @types/node aligned with the CI runtime (Node 24 LTS)
+      - dependency-name: '@types/node'
+        update-types: [version-update:semver-major]
     groups:
       production-minor-patch:
         dependency-type: production
