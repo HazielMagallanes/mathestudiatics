@@ -2,34 +2,32 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 
 import { findUnit } from '@/content/registry'
-import { formatTemplate } from '@/content/blocks/templates'
-import type { Exercise, LocalizedAnswer } from '@/content/schema'
+import type { Exercise } from '@/content/schema'
+import { ExerciseStatement } from '@/features/practice/components/ExerciseStatement'
 import { useContentLocale } from '@/shared/i18n/useContentLocale'
 import { GEOGEBRA_APPS } from '@/shared/site'
-import { buttonPrimary, buttonSecondary } from '@/shared/ui/buttons'
+import { buttonGhost, buttonPrimary, buttonSecondary } from '@/shared/ui/buttons'
 import { ExternalLink } from '@/shared/ui/ExternalLink'
-import { MathText } from '@/shared/ui/MathText'
 
 interface ExerciseCardProps {
   exercise: Exercise
   copied: boolean
+  pinned: boolean
   onNewExercise: () => void
   onCopyLink: () => void
+  onPin: () => void
+  onPinAndGo: () => void
 }
 
-function AnswerContent({ answer }: { answer: LocalizedAnswer }) {
-  const locale = useContentLocale()
-  const latex = answer.latexByLocale?.[locale] ?? answer.latex
-
-  return (
-    <div className="space-y-1">
-      <MathText text={`$${latex}$`} className="text-lg" />
-      {answer.note ? <p className="text-sm text-fg-muted">{answer.note[locale]}</p> : null}
-    </div>
-  )
-}
-
-export function ExerciseCard({ exercise, copied, onNewExercise, onCopyLink }: ExerciseCardProps) {
+export function ExerciseCard({
+  exercise,
+  copied,
+  pinned,
+  onNewExercise,
+  onCopyLink,
+  onPin,
+  onPinAndGo,
+}: ExerciseCardProps) {
   const { t } = useTranslation()
   const locale = useContentLocale()
   const badgeClass = 'rounded-full border border-rule px-2 py-0.5 text-xs font-medium text-fg-muted'
@@ -56,55 +54,7 @@ export function ExerciseCard({ exercise, copied, onNewExercise, onCopyLink }: Ex
         </span>
       </header>
 
-      {exercise.intro ? (
-        <p className="mt-4 text-fg-muted">
-          <MathText text={formatTemplate(exercise.intro, locale)} />
-        </p>
-      ) : null}
-
-      <ol className="mt-4 list-none space-y-6 p-0">
-        {exercise.parts.map((part, partIndex) => (
-          <li key={partIndex}>
-            <div className="overflow-x-auto text-lg leading-relaxed">
-              <MathText text={formatTemplate(part.prompt, locale)} />
-            </div>
-
-            <div className="mt-3 flex flex-wrap gap-x-6 gap-y-2">
-              <details className="min-w-40">
-                <summary className="cursor-pointer text-sm font-semibold text-accent select-none">
-                  {t('practice.answer')}
-                </summary>
-                <div className="mt-2">
-                  <AnswerContent answer={part.answer} />
-                </div>
-              </details>
-
-              {part.steps.length > 0 ? (
-                <details className="min-w-40">
-                  <summary className="cursor-pointer text-sm font-semibold text-accent select-none">
-                    {t('practice.steps')}
-                  </summary>
-                  <ol className="mt-2 list-none space-y-3 p-0 text-sm">
-                    {part.steps.map((stepItem, stepIndex) => (
-                      <li key={stepIndex} className="flex gap-2">
-                        <span aria-hidden="true" className="text-fg-muted">
-                          {stepIndex + 1}.
-                        </span>
-                        <span className="space-y-1">
-                          {stepItem.note ? (
-                            <span className="block text-fg-muted">{stepItem.note[locale]}</span>
-                          ) : null}
-                          {stepItem.latex ? <MathText text={`$${stepItem.latex}$`} /> : null}
-                        </span>
-                      </li>
-                    ))}
-                  </ol>
-                </details>
-              ) : null}
-            </div>
-          </li>
-        ))}
-      </ol>
+      <ExerciseStatement exercise={exercise} />
 
       <footer className="mt-6 flex flex-wrap items-center gap-3">
         <button type="button" className={buttonPrimary} onClick={onNewExercise}>
@@ -113,16 +63,28 @@ export function ExerciseCard({ exercise, copied, onNewExercise, onCopyLink }: Ex
         <button type="button" className={buttonSecondary} onClick={onCopyLink}>
           {copied ? t('practice.linkCopied') : t('practice.copyLink')}
         </button>
-        <Link to="/board" className={buttonSecondary}>
+        <button type="button" className={buttonSecondary} onClick={onPin}>
+          {pinned ? t('practice.pinned') : t('practice.pin')}
+        </button>
+        <button type="button" className={buttonGhost} onClick={onPinAndGo}>
+          {t('practice.pinAndGo')}
+        </button>
+      </footer>
+
+      <p className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+        <Link to="/board" className="font-medium text-accent underline-offset-4 hover:underline">
           {t('practice.board')}
         </Link>
-        <Link to="/calculator" className={buttonSecondary}>
+        <Link
+          to="/calculator"
+          className="font-medium text-fg-muted underline-offset-4 hover:text-accent hover:underline"
+        >
           {t('practice.calculator')}
         </Link>
         <ExternalLink href={GEOGEBRA_APPS.graphing} className="text-sm">
           {t('practice.geogebra')}
         </ExternalLink>
-      </footer>
+      </p>
     </article>
   )
 }

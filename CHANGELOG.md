@@ -4,6 +4,32 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.1.0] - 2026-09-28
+
+### Added
+
+- **Math notepad** on the whiteboard: type one step per line in plain notation
+  (`1/2 + 3/4`, `x^2 - 4 = 0`, `sqrt(2)`), see it rendered instantly, edit any
+  line, and get the lines laid out top-left on the board. Enter adds a line,
+  arrows navigate, `N` focuses the notepad, double-clicking a board line edits it.
+- **Calculator equation mode**: solves linear and quadratic equations with `x`
+  (`2x + 3 = 7`, `x^2 - 4 = 0`, `x^2 + x - 6 = 0`), shows exact fractions,
+  simplifies irrational roots (`x = (-1 ± √5)/2`) with `≈` values, and reports
+  no-solution, infinite-solution and no-real-solution cases.
+- **Calculator on the board page** as a collapsible panel, so you never leave the
+  whiteboard to compute.
+- **Pin an exercise to the whiteboard** from practice (also "pin and go"), shown
+  above the board with its answers and worked solutions.
+- Board saves now flush on unmount, tab hide and page unload (no work lost when
+  navigating).
+
+### Changed
+
+- Board files move to version 2 (older boards keep loading and keep their object
+  positions).
+- The formula input was replaced by the notepad; the board's formula tool is gone
+  (keyboard typing replaces it).
+
 ## [1.0.0] - 2026-09-27
 
 First complete release: the platform covers theory, practice, tools and offline

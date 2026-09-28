@@ -27,11 +27,15 @@
   shared (`#/practice?units=…&difficulty=…&seed=…`).
 - **Combined units**: the selector blends two topics (for example, a
   trigonometric equation whose solution set is analysed with sets).
-- **Whiteboard**: keyboard- and mouse-first (typed LaTeX supported) and
-  touch/stylus-friendly — objects, shapes, undo/redo, grid and axes, SVG/PNG
-  export and autosave.
+- **Pin an exercise to the whiteboard** and solve it there with the statement
+  always visible.
+- **Whiteboard**: keyboard- and mouse-first and touch/stylus-friendly — a
+  **math notepad** where you type one step per line in plain notation
+  (`1/2 + 3/4`, `x^2 - 4 = 0`) and see it rendered and placed on the board,
+  plus shapes, undo/redo, grid and axes, SVG/PNG export and autosave.
 - **Scientific calculator**: own parser (no `eval`), degrees/radians, memory,
-  `ans`, history and plain-language errors.
+  `ans`, history, plain-language errors, exact fractions and **equation solving**
+  (linear and quadratic with `x`, including simplified irrational roots).
 - **GeoGebra quick launch** and local history with self-assessment
   (solved / review) and JSON export/import.
 - **Installable PWA**: works offline and keeps all data on your device.

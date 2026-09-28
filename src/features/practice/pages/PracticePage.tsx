@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSearchParams } from 'react-router'
+import { useNavigate, useSearchParams } from 'react-router'
 
 import { randomSeed } from '@/content/blocks/random'
 import { generateExercise } from '@/content/generate'
@@ -18,6 +18,7 @@ import {
   setEntryStatus,
 } from '@/features/practice/history/history'
 import type { HistoryEntry, HistoryStatus } from '@/features/practice/history/history-utils'
+import { readPinnedExercise, writePinnedExercise } from '@/features/practice/state/pinned-exercise'
 import { buildPracticeSearch, parsePracticeSearch } from '@/features/practice/state/practice-search'
 import { useDocumentTitle } from '@/shared/hooks/useDocumentTitle'
 import { PageHeader } from '@/shared/ui/PageHeader'
@@ -53,6 +54,10 @@ export default function PracticePage() {
   const [copied, setCopied] = useState(false)
   const [history, setHistory] = useState<HistoryEntry[]>([])
   const [importedMessage, setImportedMessage] = useState<string | null>(null)
+  const [pinnedSeed, setPinnedSeed] = useState<string | null>(
+    () => readPinnedExercise()?.seed ?? null,
+  )
+  const navigate = useNavigate()
 
   // Keep the URL in sync so every exercise is bookmarkable and shareable.
   const desiredSearch = useMemo(
@@ -150,6 +155,16 @@ export default function PracticePage() {
       })
   }
 
+  const handlePin = (): void => {
+    writePinnedExercise({ seed, units: selection.units, difficulty, mix })
+    setPinnedSeed(seed)
+  }
+
+  const handlePinAndGo = (): void => {
+    handlePin()
+    void navigate('/board')
+  }
+
   const handleOpenEntry = (entry: HistoryEntry): void => {
     setSeed(entry.seed)
     setSearchParams(
@@ -210,11 +225,14 @@ export default function PracticePage() {
         <ExerciseCard
           exercise={exercise}
           copied={copied}
+          pinned={pinnedSeed === seed}
           onNewExercise={() => {
             setSeed(randomSeed())
             setCopied(false)
           }}
           onCopyLink={handleCopyLink}
+          onPin={handlePin}
+          onPinAndGo={handlePinAndGo}
         />
       ) : (
         <p className="rounded-lg border border-dashed border-rule bg-surface-raised p-5 text-sm text-fg-muted">
