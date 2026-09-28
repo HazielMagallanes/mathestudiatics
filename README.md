@@ -1,12 +1,14 @@
 # Mathestudiatics
 
-> Bilingual platform to **study math from any device**: theory, randomly generated
-> exercises, a whiteboard and a scientific calculator — 100% static, open source,
-> no accounts, no tracking.
+> Bilingual platform to **study math from any device**: theory and formula
+> sheets, randomly generated exercises, a whiteboard, a scientific calculator
+> and quick access to GeoGebra — 100% static, open source, no accounts, no
+> tracking, works offline.
 >
 > Plataforma bilingüe para **estudiar matemática desde cualquier dispositivo**:
-> teoría, ejercicios generados al azar, pizarra y calculadora científica — 100%
-> estática, código abierto, sin cuentas ni rastreo.
+> teoría y formularios, ejercicios generados al azar, pizarra, calculadora
+> científica y acceso rápido a GeoGebra — 100% estática, código abierto, sin
+> cuentas ni rastreo, funciona sin conexión.
 
 [![CI](https://github.com/HazielMagallanes/mathestudiatics/actions/workflows/ci.yml/badge.svg)](https://github.com/HazielMagallanes/mathestudiatics/actions/workflows/ci.yml)
 [![Deploy](https://github.com/HazielMagallanes/mathestudiatics/actions/workflows/deploy.yml/badge.svg)](https://github.com/HazielMagallanes/mathestudiatics/actions/workflows/deploy.yml)
@@ -17,26 +19,32 @@
 
 ## Features / Funcionalidades
 
-- **Random exercise generator** — pick one or two units plus a difficulty and get a
-  fresh exercise; answers and worked solutions stay hidden behind native
-  `<details>` dropdowns. Exercises are deterministic per seed, so any exercise can
-  be bookmarked or shared (`#/practice?units=…&difficulty=…&seed=…`).
-- **Generator aleatorio de ejercicios** — elegí una o dos unidades y una dificultad,
-  y obtené un ejercicio nuevo; las respuestas y soluciones se muestran en
-  desplegables nativos. Cada ejercicio es determinista por semilla: se puede
-  guardar o compartir el enlace.
-- **Combined units / Unidades combinadas** — the selector can blend two topics
-  (e.g. a trigonometric equation whose solution set is analyzed with sets).
-- **Whiteboard / Pizarra** — keyboard- and mouse-first (typed LaTeX supported) and
-  touch/stylus-friendly: objects, shapes, undo/redo, grid, PNG export, autosave.
-- **Scientific calculator / Calculadora científica** — own parser (no `eval`),
-  DEG/RAD, ANS and memory, expression history.
-- **GeoGebra quick launch** — one click to the graphing calculator when you need
-  plots.
-- **Bilingual ES/EN** with anonymized, original theory content and printable
-  formula sheets.
-- **Offline-ready** — installable PWA; all data stays on your device (JSON
-  export/import to move between devices).
+- **Theory and formula sheets** per unit, in Spanish and English, with rendered
+  math and a print view.
+- **Random exercise generator**: pick one or two units and a difficulty; answers
+  and worked solutions stay hidden behind native `<details>` dropdowns. Every
+  exercise is deterministic per seed, so any exercise can be bookmarked or
+  shared (`#/practice?units=…&difficulty=…&seed=…`).
+- **Combined units**: the selector blends two topics (for example, a
+  trigonometric equation whose solution set is analysed with sets).
+- **Whiteboard**: keyboard- and mouse-first (typed LaTeX supported) and
+  touch/stylus-friendly — objects, shapes, undo/redo, grid and axes, SVG/PNG
+  export and autosave.
+- **Scientific calculator**: own parser (no `eval`), degrees/radians, memory,
+  `ans`, history and plain-language errors.
+- **GeoGebra quick launch** and local history with self-assessment
+  (solved / review) and JSON export/import.
+- **Installable PWA**: works offline and keeps all data on your device.
+
+## Units / Unidades
+
+| Unit                         | Contents                                                                    |
+| ---------------------------- | --------------------------------------------------------------------------- |
+| Revisión / Review            | Fractions, powers and roots, logarithms, linear equations, intervals        |
+| Lógica / Logic               | Propositions, connectives, truth tables, equivalences, quantifiers          |
+| Conjuntos / Sets             | Extension and comprehension, operations, cardinality, power sets, intervals |
+| Trigonometría / Trigonometry | Ratios, exact values, identities, equations, graphs, applications           |
+| Vectores / Vectors           | Components, operations, norm, dot product, angles, parallelism              |
 
 ## Quick start / Inicio rápido
 
@@ -50,13 +58,15 @@ pnpm dev        # http://localhost:5173
 Quality gates / Controles de calidad:
 
 ```bash
-pnpm lint           # ESLint (flat config, typed)
-pnpm typecheck      # tsc -b
-pnpm test           # Vitest unit tests
-pnpm test:coverage  # coverage report
-pnpm e2e            # Playwright (needs: pnpm e2e:install once)
-pnpm build          # production build in dist/
-pnpm format:check   # Prettier
+pnpm lint                 # ESLint (flat config, typed)
+pnpm typecheck            # tsc -b
+pnpm test                 # Vitest unit tests
+pnpm test:coverage        # coverage with thresholds
+pnpm e2e                  # Playwright + axe (needs: pnpm e2e:install once)
+pnpm build                # production build in dist/
+pnpm check:bundle         # performance budgets
+pnpm check:anonymization  # content policy check
+pnpm format:check         # Prettier
 ```
 
 ## Project structure / Estructura
@@ -64,29 +74,40 @@ pnpm format:check   # Prettier
 ```
 src/
   app/         shell: router, providers, layout
-  content/     pure content + logic: schema, blocks, units
-    units/     one folder per unit — drop-in extensible
-  features/    practice, whiteboard, calculator, study, geogebra
+  content/     pure content + logic
+    units/     one folder per unit — drop-in extensible (theory, formulas, generators)
+    combined/  cross-unit generators (declare two or more units)
+  features/    practice, whiteboard, calculator, study, tools
   shared/      UI primitives, i18n, storage, seeded RNG, math rendering
 docs/
   adr/         architecture decision records (append-only)
+  architecture.md, performance.md, anonymization-policy.md
+scripts/       anonymization and bundle-size checks (run in CI)
 ```
-
-See [docs/architecture.md](docs/architecture.md) for diagrams and the
-[anonymization policy](docs/anonymization-policy.md) for content rules.
 
 ## Extending a unit / Extender una unidad
 
 Adding a unit means adding one folder under `src/content/units/<unit>/` with
-`index.ts` (generators), theory files and formula sheets; the registry discovers
-it automatically. A conformance test suite runs every generator across seeds and
-difficulties. Details in [docs/architecture.md](docs/architecture.md).
+`index.ts` (generators), `theory.<locale>.md` and `formulas.<locale>.md`; the
+registry discovers it automatically. A conformance suite runs every generator
+across seeds and difficulties, and an independent LaTeX oracle re-computes the
+answers. Details in [docs/architecture.md](docs/architecture.md) and
+[ADR 0003](docs/adr/0003-content-packs-and-seeded-generators/README.md).
+
+## Documentation / Documentación
+
+- [Architecture](docs/architecture.md) — layers, data flow, content packs.
+- [Performance budgets](docs/performance.md) — measured budgets and how they
+  are enforced.
+- [Anonymization policy](docs/anonymization-policy.md) — what may be published.
+- [ADRs](docs/adr/README.md) — every significant decision, append-only.
 
 ## Contributing / Contribuir
 
-Issues and PRs are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and the
-[security policy](SECURITY.md). Commit messages follow Conventional Commits; every
-change must keep lint, typecheck, unit tests and E2E green.
+Issues and PRs are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and
+the [security policy](SECURITY.md). Commit messages follow Conventional
+Commits; every change must keep lint, typecheck, unit tests, E2E and the policy
+checks green.
 
 ## License / Licencia
 

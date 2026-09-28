@@ -47,6 +47,9 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Bundle size budget
+        run: pnpm check:bundle
+
   e2e:
     name: E2E (Playwright + axe)
     runs-on: ubuntu-latest
