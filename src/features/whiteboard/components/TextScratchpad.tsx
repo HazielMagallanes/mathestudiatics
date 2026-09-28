@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 
 import { buttonSecondary } from '@/shared/ui/buttons'
+import { isEnterKey } from '@/shared/ui/keys'
 
 interface TextScratchpadProps {
   text: string
@@ -25,6 +26,13 @@ export function TextScratchpad({ text, onTextChange, onAddText }: TextScratchpad
             onTextChange(event.target.value)
           }}
           placeholder={t('whiteboard.writeTextPlaceholder')}
+          enterKeyHint="enter"
+          onKeyDown={(event) => {
+            if (isEnterKey(event)) {
+              event.preventDefault()
+              onAddText()
+            }
+          }}
           className="border-rule bg-surface min-w-0 flex-1 rounded-md border px-2 py-1 text-sm"
         />
         <button type="button" className={buttonSecondary} onClick={onAddText}>

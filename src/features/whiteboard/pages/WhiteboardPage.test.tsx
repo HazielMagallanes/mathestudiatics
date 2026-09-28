@@ -102,6 +102,27 @@ describe('whiteboard page', () => {
     expect(board.querySelector('[data-object-kind="math"]')).toBeNull()
   })
 
+  it('commits lines with the button too (mobile keyboards show Next, not Enter)', async () => {
+    const user = userEvent.setup()
+    await renderBoard()
+
+    await user.type(screen.getByLabelText('Nueva línea'), '2/5 + 1/5')
+    await user.click(screen.getByRole('button', { name: 'Agregar línea' }))
+
+    const board = screen.getByRole('application', { name: 'Pizarra de resolución' })
+
+    expect(board.querySelector('[data-object-kind="math"]')).not.toBeNull()
+    expect(screen.getByLabelText('Nueva línea')).toHaveValue('')
+
+    // Editing a line also has an explicit save button.
+    await user.click(screen.getByRole('button', { name: 'Línea 1' }))
+    await user.clear(screen.getByLabelText('Línea 1', { exact: true }))
+    await user.type(screen.getByLabelText('Línea 1', { exact: true }), '3/5')
+    await user.click(screen.getByRole('button', { name: 'Guardar la línea 1' }))
+
+    expect(board.textContent).toContain('3')
+  })
+
   it('adds typed text and keeps the scratchpad clean', async () => {
     const user = userEvent.setup()
     await renderBoard()

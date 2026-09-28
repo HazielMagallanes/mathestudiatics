@@ -86,6 +86,25 @@ test.describe('mobile layout', () => {
     await expect(page.getByRole('heading', { level: 1 })).toContainText('at your own pace')
   })
 
+  test('the notepad works with the on-screen keyboard flow (button commit)', async ({ page }) => {
+    await page.setViewportSize({ width: 360, height: 740 })
+    await page.goto('./#/board')
+
+    const notepad = page.getByLabel('Nueva línea')
+
+    await notepad.scrollIntoViewIfNeeded()
+    await notepad.fill('1/2 + 1/4')
+
+    // Mobile keyboards show "Next"/"Go"; the button commits the line.
+    await page.getByRole('button', { name: 'Agregar línea' }).click()
+
+    const board = page.getByRole('application', { name: 'Pizarra de resolución' })
+
+    await expect(board.locator('[data-object-kind="math"]')).toHaveCount(1)
+    await expect(notepad).toHaveValue('')
+    await expect(page.getByRole('button', { name: 'Línea 1', exact: true })).toBeVisible()
+  })
+
   test('every display formula fits the screen without horizontal scrolling', async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 640 })
 

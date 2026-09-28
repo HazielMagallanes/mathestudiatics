@@ -4,6 +4,17 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.2.1] - 2026-09-28
+
+### Fixed
+
+- The math notepad now works with **mobile keyboards**: an explicit
+  **Agregar línea** button commits the new line, editing rows have a ✓ save
+  button, inputs request an Enter key (`enterKeyHint`) and Enter detection also
+  covers IME keyboards that only report `keyCode 13`.
+- The calculator asks for a "go" key and commits on Enter; the text box commits
+  the annotation with Enter as well.
+
 ## [1.2.0] - 2026-09-28
 
 ### Changed

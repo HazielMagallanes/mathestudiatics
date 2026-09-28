@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next'
 
 import type { MathObject } from '@/features/whiteboard/model/types'
 import { plainToLatex } from '@/shared/math/plain-to-latex'
-import { buttonGhost } from '@/shared/ui/buttons'
+import { isEnterKey } from '@/shared/ui/keys'
+import { buttonGhost, buttonSecondary } from '@/shared/ui/buttons'
 import { cn } from '@/shared/ui/cn'
 import { MathText } from '@/shared/ui/MathText'
 
@@ -159,7 +160,7 @@ export function MathNotepad({ entries, onCommit, onRemove, ref }: MathNotepadPro
   }
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>, line: ActiveLine): void => {
-    if (event.key === 'Enter') {
+    if (isEnterKey(event)) {
       event.preventDefault()
       commit(line)
       return
@@ -240,6 +241,7 @@ export function MathNotepad({ entries, onCommit, onRemove, ref }: MathNotepadPro
                     }}
                     value={draftOf(entry)}
                     aria-label={t('whiteboard.notepad.lineLabel', { index: index + 1 })}
+                    enterKeyHint="enter"
                     onChange={(event) => {
                       setDrafts((current) => new Map(current).set(entry.id, event.target.value))
                     }}
@@ -264,6 +266,19 @@ export function MathNotepad({ entries, onCommit, onRemove, ref }: MathNotepadPro
                   <MathText text={`$${entry.latex}$`} />
                 </button>
               )}
+
+              {isActive ? (
+                <button
+                  type="button"
+                  className={buttonGhost}
+                  aria-label={t('whiteboard.notepad.saveLine', { index: index + 1 })}
+                  onClick={() => {
+                    commit(entry.id)
+                  }}
+                >
+                  ✓
+                </button>
+              ) : null}
 
               <button
                 type="button"
@@ -296,6 +311,7 @@ export function MathNotepad({ entries, onCommit, onRemove, ref }: MathNotepadPro
               value={newLine}
               placeholder={t('whiteboard.notepad.placeholder')}
               aria-label={t('whiteboard.notepad.newLineLabel')}
+              enterKeyHint="enter"
               onFocus={() => {
                 setActiveLine(NEW_LINE)
               }}
@@ -313,6 +329,16 @@ export function MathNotepad({ entries, onCommit, onRemove, ref }: MathNotepadPro
               </p>
             ) : null}
           </div>
+
+          <button
+            type="button"
+            className={buttonSecondary}
+            onClick={() => {
+              commit(NEW_LINE)
+            }}
+          >
+            {t('whiteboard.notepad.addLine')}
+          </button>
         </li>
       </ol>
 

@@ -205,7 +205,9 @@
       "lineLabel": "Línea {{index}}",
       "newLineLabel": "Nueva línea",
       "placeholder": "Por ejemplo: 1/2 + 3/4  ó  x^2 - 4 = 0",
-      "deleteLine": "Borrar la línea {{index}}"
+      "deleteLine": "Borrar la línea {{index}}",
+      "addLine": "Agregar línea",
+      "saveLine": "Guardar la línea {{index}}"
     },
     "calculatorPanel": "Calculadora",
     "pinned": {

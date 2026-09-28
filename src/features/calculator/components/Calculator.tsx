@@ -9,6 +9,7 @@ import type { CalculatorErrorCode } from '@/features/calculator/engine/tokenizer
 import { readLocalStorage, writeLocalStorage } from '@/shared/storage/local-storage'
 import { buttonGhost, buttonSecondary } from '@/shared/ui/buttons'
 import { cn } from '@/shared/ui/cn'
+import { isEnterKey } from '@/shared/ui/keys'
 import { MathText } from '@/shared/ui/MathText'
 
 const HISTORY_STORAGE_KEY = 'mathestudiatics.calculator.history'
@@ -314,8 +315,9 @@ export function Calculator({ className }: { className?: string }) {
           onChange={(event) => {
             setExpression(event.target.value)
           }}
+          enterKeyHint="go"
           onKeyDown={(event) => {
-            if (event.key === 'Enter') {
+            if (isEnterKey(event)) {
               event.preventDefault()
               submit()
             }
