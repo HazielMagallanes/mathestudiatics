@@ -12,33 +12,6 @@ import {
   removeObject,
   updateObject,
 } from '@/features/whiteboard/model/board'
-import type { ShapeObject, StrokeObject } from '@/features/whiteboard/model/types'
-
-/** Objects saved by older versions: the board renders and moves them. */
-function legacyStroke(): StrokeObject {
-  return {
-    id: 'stroke-1',
-    kind: 'stroke',
-    points: [
-      { x: 10, y: 10, pressure: 0.5 },
-      { x: 40, y: 30, pressure: 0.6 },
-    ],
-    color: '#111111',
-    width: 4,
-    highlighter: false,
-  }
-}
-
-function legacyShape(): ShapeObject {
-  return {
-    id: 'shape-1',
-    kind: 'rect',
-    start: { x: 0, y: 0 },
-    end: { x: 20, y: 10 },
-    color: '#111111',
-    width: 2,
-  }
-}
 
 describe('board operations', () => {
   it('adds, finds and removes objects without mutating the original', () => {
@@ -52,22 +25,16 @@ describe('board operations', () => {
     expect(findObject(withMath, 'missing')).toBeUndefined()
   })
 
-  it('moves math, text and legacy objects', () => {
+  it('moves math and text objects', () => {
     const math = createMath({ x: 5, y: 5 }, 'x^{2}')
     const text = createText({ x: 5, y: 5 }, 'hola', { color: '#111111' })
-    const stroke = legacyStroke()
-    let board = addObject(addObject(addObject(emptyBoard(), math), text), stroke)
+    let board = addObject(addObject(emptyBoard(), math), text)
 
     board = moveObject(board, math.id, 10, -5)
     board = moveObject(board, text.id, 0, 7)
-    board = moveObject(board, stroke.id, -3, 3)
 
     expect(findObject(board, math.id)).toMatchObject({ position: { x: 15, y: 0 } })
     expect(findObject(board, text.id)).toMatchObject({ position: { x: 5, y: 12 } })
-
-    const movedStroke = findObject(board, stroke.id)
-
-    expect(movedStroke?.kind === 'stroke' && movedStroke.points[0]).toMatchObject({ x: 7, y: 13 })
   })
 
   it('updates an object through a function', () => {
@@ -92,7 +59,7 @@ describe('board operations', () => {
   })
 
   it('ignores duplication and reordering of missing objects', () => {
-    const board = addObject(emptyBoard(), legacyShape())
+    const board = addObject(emptyBoard(), createText({ x: 0, y: 0 }, 'a', { color: '#111111' }))
 
     expect(duplicateObject(board, 'missing')).toBe(board)
     expect(bringToFront(board, 'missing')).toBe(board)

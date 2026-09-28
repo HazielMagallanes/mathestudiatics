@@ -38,22 +38,7 @@ export function moveObject(board: Board, id: string, dx: number, dy: number): Bo
 }
 
 export function translateObject(object: BoardObject, dx: number, dy: number): BoardObject {
-  switch (object.kind) {
-    case 'stroke':
-      return {
-        ...object,
-        points: object.points.map((point) => ({ ...point, x: point.x + dx, y: point.y + dy })),
-      }
-    case 'text':
-    case 'math':
-      return { ...object, position: { x: object.position.x + dx, y: object.position.y + dy } }
-    default:
-      return {
-        ...object,
-        start: { x: object.start.x + dx, y: object.start.y + dy },
-        end: { x: object.end.x + dx, y: object.end.y + dy },
-      }
-  }
+  return { ...object, position: { x: object.position.x + dx, y: object.position.y + dy } }
 }
 
 /** Duplicates an object with a fresh id, offset a little so it is visible. */

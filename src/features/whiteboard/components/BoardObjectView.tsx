@@ -1,88 +1,19 @@
 import { memo } from 'react'
 
-import { estimateMathBox, normalizeRect } from '@/features/whiteboard/model/geometry'
-import { strokePath } from '@/features/whiteboard/model/stroke'
+import { estimateMathBox } from '@/features/whiteboard/model/geometry'
 import type { BoardObject } from '@/features/whiteboard/model/types'
 import { MathText } from '@/shared/ui/MathText'
-
-export const ARROW_MARKER_ID = 'whiteboard-arrow'
 
 export const ObjectView = memo(function ObjectView({ object }: { object: BoardObject }) {
   return (
     <g data-object-id={object.id} data-object-kind={object.kind}>
-      <ObjectShape object={object} />
+      <ObjectContent object={object} />
     </g>
   )
 })
 
-function ObjectShape({ object }: { object: BoardObject }) {
+function ObjectContent({ object }: { object: BoardObject }) {
   switch (object.kind) {
-    case 'stroke':
-      return (
-        <path
-          d={strokePath(object.points, {
-            width: object.width,
-            highlighter: object.highlighter,
-          })}
-          fill={object.color}
-          opacity={object.highlighter ? 0.35 : 1}
-        />
-      )
-    case 'line':
-      return (
-        <line
-          x1={object.start.x}
-          y1={object.start.y}
-          x2={object.end.x}
-          y2={object.end.y}
-          stroke={object.color}
-          strokeWidth={object.width}
-          strokeLinecap="round"
-        />
-      )
-    case 'arrow':
-      return (
-        <line
-          x1={object.start.x}
-          y1={object.start.y}
-          x2={object.end.x}
-          y2={object.end.y}
-          stroke={object.color}
-          strokeWidth={object.width}
-          strokeLinecap="round"
-          markerEnd={`url(#${ARROW_MARKER_ID})`}
-        />
-      )
-    case 'rect': {
-      const rect = normalizeRect(object.start, object.end)
-
-      return (
-        <rect
-          x={rect.x}
-          y={rect.y}
-          width={rect.width}
-          height={rect.height}
-          fill="none"
-          stroke={object.color}
-          strokeWidth={object.width}
-        />
-      )
-    }
-    case 'circle': {
-      const rect = normalizeRect(object.start, object.end)
-
-      return (
-        <ellipse
-          cx={rect.x + rect.width / 2}
-          cy={rect.y + rect.height / 2}
-          rx={rect.width / 2}
-          ry={rect.height / 2}
-          fill="none"
-          stroke={object.color}
-          strokeWidth={object.width}
-        />
-      )
-    }
     case 'text':
       return (
         <text

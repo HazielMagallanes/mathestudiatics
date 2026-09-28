@@ -1,6 +1,6 @@
 # ADR 0009: The whiteboard as a typed display surface
 
-- **Status:** Accepted
+- **Status:** Accepted — compatibility clause superseded by [ADR 0010](../0010-drop-legacy-board-compatibility/README.md)
 - **Date:** 2026-09-28
 - **Deciders:** Haziel Magallanes
 

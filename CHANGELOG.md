@@ -13,13 +13,15 @@ All notable changes to this project are documented here. The format follows
   the math notepad, and pointer input is for selecting, moving and panning.
 - The board toolbar keeps only the view controls: grid, axes, zoom, undo/redo,
   clear and SVG/PNG export.
-- Boards saved by older versions still load, render, move and export: the legacy
-  stroke and shape kinds are kept for compatibility.
+- Board files now contain only the two real object kinds (**math** and
+  **text**); the board format keeps a version field but no legacy migration.
 
 ### Removed
 
 - Drawing tools (pen, highlighter, eraser, line, arrow, rectangle, circle) and
   the formula tool, which the notepad already replaced.
+- The legacy stroke/shape model, the freehand renderer and the
+  `perfect-freehand` dependency.
 
 ## [1.1.0] - 2026-09-28
 

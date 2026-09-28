@@ -13,3 +13,4 @@ ADR nuevo.
 | [0002](0002-hash-routing-github-pages/README.md)           | Hash routing on GitHub Pages                      | Accepted |
 | [0003](0003-content-packs-and-seeded-generators/README.md) | Content packs and seeded generators               | Accepted |
 | [0004](0004-svg-whiteboard-object-model/README.md)         | SVG whiteboard with an object model               | Accepted |
+| [0010](0010-drop-legacy-board-compatibility/README.md)     | Drop legacy board compatibility                   | Accepted |

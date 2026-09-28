@@ -47,7 +47,7 @@ import { clearSavedBoard, loadBoard, saveBoard } from '@/features/whiteboard/sto
 import { plainToLatex } from '@/shared/math/plain-to-latex'
 import { cn } from '@/shared/ui/cn'
 
-import { ARROW_MARKER_ID, ObjectView } from './BoardObjectView'
+import { ObjectView } from './BoardObjectView'
 import { MathNotepad, NOTEPAD_NEW_LINE_ID, type MathNotepadHandle } from './MathNotepad'
 import { TextScratchpad } from './TextScratchpad'
 import { WhiteboardToolbar, type GridStyle } from './WhiteboardToolbar'
@@ -630,17 +630,6 @@ export function Whiteboard({ className }: { className?: string }) {
         }}
       >
         <defs>
-          <marker
-            id={ARROW_MARKER_ID}
-            markerWidth="8"
-            markerHeight="8"
-            refX="6"
-            refY="3"
-            orient="auto"
-            markerUnits="strokeWidth"
-          >
-            <path d="M0,0 L6,3 L0,6 Z" fill="context-stroke" />
-          </marker>
           <pattern id="whiteboard-dots" patternUnits="userSpaceOnUse" width="24" height="24">
             <circle cx="2" cy="2" r="1.2" className="fill-rule" />
           </pattern>

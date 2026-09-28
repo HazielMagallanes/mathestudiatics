@@ -3,10 +3,6 @@ export interface Point {
   y: number
 }
 
-export interface StrokePoint extends Point {
-  pressure: number
-}
-
 export interface Rect {
   x: number
   y: number
@@ -14,31 +10,8 @@ export interface Rect {
   height: number
 }
 
-export type ShapeKind = 'line' | 'arrow' | 'rect' | 'circle'
-
 interface BoardObjectBase {
   id: string
-}
-
-/**
- * Legacy object kinds: the board no longer creates them (it is a display for
- * typed input), but they are kept so boards saved by older versions still
- * render, move and export.
- */
-export interface StrokeObject extends BoardObjectBase {
-  kind: 'stroke'
-  points: StrokePoint[]
-  color: string
-  width: number
-  highlighter: boolean
-}
-
-export interface ShapeObject extends BoardObjectBase {
-  kind: ShapeKind
-  start: Point
-  end: Point
-  color: string
-  width: number
 }
 
 export interface TextObject extends BoardObjectBase {
@@ -63,7 +36,7 @@ export interface MathObject extends BoardObjectBase {
   fontSize: number
 }
 
-export type BoardObject = StrokeObject | ShapeObject | TextObject | MathObject
+export type BoardObject = TextObject | MathObject
 
 export interface Board {
   objects: BoardObject[]
