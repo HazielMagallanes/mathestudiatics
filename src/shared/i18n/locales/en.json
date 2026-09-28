@@ -60,8 +60,17 @@
   "study": {
     "title": "Theory",
     "description": "Notes and formula sheets per unit, rewritten in our own words.",
-    "comingSoon": "Units are enabled as the material is reviewed.",
-    "theoryPending": "Theory in preparation"
+    "readUnit": "Read theory",
+    "practiceThisUnit": "Practice this unit",
+    "print": "Print",
+    "theorySection": "Theory",
+    "formulasSection": "Formula sheet",
+    "contentNote": "Original content rewritten in our own words, without institutional data.",
+    "notFound": {
+      "title": "Unit not found",
+      "description": "The unit you are looking for does not exist or has no material yet.",
+      "back": "Back to theory"
+    }
   },
   "practice": {
     "title": "Practice",

@@ -19,6 +19,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
+    "check:anonymization": "node scripts/check-anonymization.mjs",
     "e2e": "playwright test",
     "e2e:install": "playwright install --with-deps chromium",
     "prepare": "husky"
@@ -35,7 +36,10 @@
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-i18next": "^17.0.14",
+    "react-markdown": "^10.1.0",
     "react-router": "^8.4.0",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0",
     "tailwind-merge": "^3.7.0",
     "zod": "^4.6.5"
   },

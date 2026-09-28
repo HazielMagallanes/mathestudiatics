@@ -1,0 +1,22 @@
+{
+  "terms": [
+    "unnoba",
+    "universidad nacional del noroeste",
+    "elementos de matemática",
+    "elementos de analisis matematico",
+    "elementos de análisis matemático",
+    "trabajo práctico",
+    "trabajo practico",
+    "apunte teórico",
+    "apunte teorico",
+    "guía n°",
+    "guia n°",
+    "práctica n°",
+    "practica n°",
+    "guaraní",
+    "guarani3",
+    "sial",
+    "legajo"
+  ],
+  "rationale": "Institutional and course identifiers that must never appear in the public repository. The private source material stays git-ignored; published content is original prose."
+}

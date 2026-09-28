@@ -5,6 +5,7 @@ import { AppLayout } from '@/app/layout/AppLayout'
 
 const HomePage = lazy(() => import('@/features/home/pages/HomePage'))
 const StudyPage = lazy(() => import('@/features/study/pages/StudyPage'))
+const StudyUnitPage = lazy(() => import('@/features/study/pages/StudyUnitPage'))
 const PracticePage = lazy(() => import('@/features/practice/pages/PracticePage'))
 const ToolsPage = lazy(() => import('@/features/tools/pages/ToolsPage'))
 const WhiteboardPage = lazy(() => import('@/features/whiteboard/pages/WhiteboardPage'))
@@ -19,6 +20,7 @@ export const routes: RouteObject[] = [
     children: [
       { index: true, element: <HomePage /> },
       { path: 'study', element: <StudyPage /> },
+      { path: 'study/:unitId', element: <StudyUnitPage /> },
       { path: 'practice', element: <PracticePage /> },
       { path: 'tools', element: <ToolsPage /> },
       { path: 'board', element: <WhiteboardPage /> },

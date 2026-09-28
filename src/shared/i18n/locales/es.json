@@ -60,8 +60,17 @@
   "study": {
     "title": "Teoría",
     "description": "Apuntes y formularios por unidad, reescritos en lenguaje propio.",
-    "comingSoon": "Las unidades se habilitan a medida que se revisa el material.",
-    "theoryPending": "Teoría en preparación"
+    "readUnit": "Leer teoría",
+    "practiceThisUnit": "Practicar esta unidad",
+    "print": "Imprimir",
+    "theorySection": "Teoría",
+    "formulasSection": "Formulario",
+    "contentNote": "Contenido original reescrito en lenguaje propio, sin datos institucionales.",
+    "notFound": {
+      "title": "Unidad no encontrada",
+      "description": "La unidad que buscás no existe o todavía no tiene material.",
+      "back": "Volver a la teoría"
+    }
   },
   "practice": {
     "title": "Práctica",

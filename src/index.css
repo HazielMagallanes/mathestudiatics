@@ -94,3 +94,67 @@
     background-color: var(--color-burgundy-100, #f3dfe1);
   }
 }
+
+@layer components {
+  .prose-study {
+    @apply max-w-3xl space-y-4 leading-relaxed;
+  }
+
+  .prose-study h2 {
+    @apply mt-8 border-b border-rule pb-1 text-2xl font-semibold;
+  }
+
+  .prose-study h3 {
+    @apply mt-6 text-xl font-semibold;
+  }
+
+  .prose-study p {
+    @apply text-fg;
+  }
+
+  .prose-study ul {
+    @apply list-disc space-y-1 pl-6;
+  }
+
+  .prose-study ol {
+    @apply list-decimal space-y-1 pl-6;
+  }
+
+  .prose-study a {
+    @apply text-accent underline underline-offset-4;
+  }
+
+  .prose-study blockquote {
+    @apply border-l-4 border-accent/40 bg-surface-raised px-4 py-2 text-fg-muted;
+  }
+
+  .prose-study code {
+    @apply bg-surface-raised rounded px-1 py-0.5 font-mono text-sm;
+  }
+
+  .prose-study table {
+    @apply w-full border-collapse text-sm;
+  }
+
+  .prose-study th,
+  .prose-study td {
+    @apply border border-rule px-3 py-1.5 text-left;
+  }
+
+  .prose-study th {
+    @apply bg-surface-raised font-semibold;
+  }
+}
+
+@media print {
+  header,
+  footer,
+  nav,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff;
+  }
+}

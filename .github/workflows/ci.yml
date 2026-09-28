@@ -32,6 +32,9 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      - name: Anonymization check
+        run: pnpm check:anonymization
+
       - name: Typecheck
         run: pnpm typecheck
 
