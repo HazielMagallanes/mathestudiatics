@@ -12,3 +12,4 @@ ADR nuevo.
 | [0001](0001-static-react-spa-vite/README.md)               | Static React SPA built with Vite for GitHub Pages | Accepted |
 | [0002](0002-hash-routing-github-pages/README.md)           | Hash routing on GitHub Pages                      | Accepted |
 | [0003](0003-content-packs-and-seeded-generators/README.md) | Content packs and seeded generators               | Accepted |
+| [0004](0004-svg-whiteboard-object-model/README.md)         | SVG whiteboard with an object model               | Accepted |

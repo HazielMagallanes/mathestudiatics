@@ -103,6 +103,7 @@ resueltos; los tests validan las respuestas con un oráculo de LaTeX independien
 | Static SPA on Vite + React          | [ADR 0001](adr/0001-static-react-spa-vite/README.md)               |
 | Hash routing on GitHub Pages        | [ADR 0002](adr/0002-hash-routing-github-pages/README.md)           |
 | Content packs and seeded generators | [ADR 0003](adr/0003-content-packs-and-seeded-generators/README.md) |
+| SVG whiteboard with an object model | [ADR 0004](adr/0004-svg-whiteboard-object-model/README.md)         |
 
 ## Non-functional constraints / Restricciones no funcionales
 

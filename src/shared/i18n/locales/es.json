@@ -106,7 +106,8 @@
     "description": "Todo lo necesario para resolver, sin salir del navegador.",
     "whiteboard": {
       "title": "Pizarra",
-      "description": "Resolvé a mano o con el teclado: figuras, texto y fórmulas."
+      "description": "Resolvé a mano o con el teclado: figuras, texto y fórmulas.",
+      "open": "Abrir pizarra"
     },
     "calculator": {
       "title": "Calculadora científica",
@@ -120,6 +121,53 @@
       "scientific": "Calculadora",
       "geometry": "Geometría"
     }
+  },
+  "whiteboard": {
+    "title": "Pizarra",
+    "description": "Resolvé a mano o con el teclado: trazos, figuras, texto y fórmulas.",
+    "boardLabel": "Pizarra de resolución",
+    "instructions": "Dibujá con el mouse, el dedo o el lápiz; también podés escribir texto y fórmulas para resolver con el teclado.",
+    "toolsLabel": "Herramientas de la pizarra",
+    "tools": {
+      "select": "Seleccionar",
+      "pen": "Lápiz",
+      "highlighter": "Resaltador",
+      "eraser": "Goma",
+      "line": "Línea",
+      "arrow": "Flecha",
+      "rect": "Rectángulo",
+      "circle": "Círculo",
+      "text": "Texto",
+      "math": "Fórmula",
+      "pan": "Mover vista"
+    },
+    "color": "Color",
+    "strokeWidth": "Grosor",
+    "grid": "Cuadrícula",
+    "gridOptions": {
+      "dots": "Puntos",
+      "lines": "Líneas",
+      "none": "Sin cuadrícula"
+    },
+    "axes": "Ejes",
+    "zoomIn": "Acercar",
+    "zoomOut": "Alejar",
+    "zoomReset": "Vista inicial",
+    "undo": "Deshacer",
+    "redo": "Rehacer",
+    "clear": "Limpiar",
+    "exportSvg": "Exportar SVG",
+    "exportPng": "Exportar PNG",
+    "exportFallback": "No se pudo generar el PNG; se descargó el SVG.",
+    "writeText": "Texto",
+    "writeTextPlaceholder": "Escribí un texto…",
+    "writeMath": "Fórmula (LaTeX)",
+    "writeMathPlaceholder": "Por ejemplo: \\frac{1}{2} + \\sqrt{3}",
+    "addText": "Agregar texto",
+    "addMath": "Agregar fórmula",
+    "preview": "La vista previa aparece acá",
+    "symbols": "Símbolos",
+    "selectedHint": "Seleccionado: movelo con las flechas, borralo con Supr o duplicalo con Ctrl+D."
   },
   "about": {
     "title": "Acerca de",

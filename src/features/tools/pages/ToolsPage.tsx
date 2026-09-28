@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router'
 
 import { GEOGEBRA_APPS } from '@/shared/site'
 import { useDocumentTitle } from '@/shared/hooks/useDocumentTitle'
@@ -21,9 +22,13 @@ export default function ToolsPage() {
         <li className="rounded-lg border border-rule bg-surface-raised p-5">
           <h2 className="text-xl font-semibold">{t('tools.whiteboard.title')}</h2>
           <p className="mt-2 text-sm text-fg-muted">{t('tools.whiteboard.description')}</p>
-          <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-fg-muted">
-            {t('common.comingSoon')}
-          </p>
+          <Link
+            to="/board"
+            className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-accent underline-offset-4 hover:underline"
+          >
+            {t('tools.whiteboard.open')}
+            <span aria-hidden="true">→</span>
+          </Link>
         </li>
         <li className="rounded-lg border border-rule bg-surface-raised p-5">
           <h2 className="text-xl font-semibold">{t('tools.calculator.title')}</h2>

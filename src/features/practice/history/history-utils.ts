@@ -30,7 +30,9 @@ export function isHistoryEntry(value: unknown): value is HistoryEntry {
     candidate.units.every((unit) => typeof unit === 'string') &&
     typeof candidate.difficulty === 'string' &&
     typeof candidate.createdAt === 'number' &&
-    (candidate.status === undefined || candidate.status === 'solved' || candidate.status === 'review')
+    (candidate.status === undefined ||
+      candidate.status === 'solved' ||
+      candidate.status === 'review')
   )
 }
 

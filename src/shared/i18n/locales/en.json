@@ -106,7 +106,8 @@
     "description": "Everything you need to solve, without leaving the browser.",
     "whiteboard": {
       "title": "Whiteboard",
-      "description": "Solve by hand or with the keyboard: shapes, text and formulas."
+      "description": "Solve by hand or with the keyboard: shapes, text and formulas.",
+      "open": "Open whiteboard"
     },
     "calculator": {
       "title": "Scientific calculator",
@@ -120,6 +121,53 @@
       "scientific": "Calculator",
       "geometry": "Geometry"
     }
+  },
+  "whiteboard": {
+    "title": "Whiteboard",
+    "description": "Solve by hand or with the keyboard: strokes, shapes, text and formulas.",
+    "boardLabel": "Solving whiteboard",
+    "instructions": "Draw with the mouse, finger or stylus; you can also type text and formulas to solve with the keyboard.",
+    "toolsLabel": "Whiteboard tools",
+    "tools": {
+      "select": "Select",
+      "pen": "Pen",
+      "highlighter": "Highlighter",
+      "eraser": "Eraser",
+      "line": "Line",
+      "arrow": "Arrow",
+      "rect": "Rectangle",
+      "circle": "Circle",
+      "text": "Text",
+      "math": "Formula",
+      "pan": "Pan"
+    },
+    "color": "Color",
+    "strokeWidth": "Width",
+    "grid": "Grid",
+    "gridOptions": {
+      "dots": "Dots",
+      "lines": "Lines",
+      "none": "No grid"
+    },
+    "axes": "Axes",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "zoomReset": "Reset view",
+    "undo": "Undo",
+    "redo": "Redo",
+    "clear": "Clear",
+    "exportSvg": "Export SVG",
+    "exportPng": "Export PNG",
+    "exportFallback": "PNG export failed; the SVG was downloaded instead.",
+    "writeText": "Text",
+    "writeTextPlaceholder": "Type some text…",
+    "writeMath": "Formula (LaTeX)",
+    "writeMathPlaceholder": "For example: \\frac{1}{2} + \\sqrt{3}",
+    "addText": "Add text",
+    "addMath": "Add formula",
+    "preview": "The preview appears here",
+    "symbols": "Symbols",
+    "selectedHint": "Selected: move it with the arrows, delete it with Del or duplicate it with Ctrl+D."
   },
   "about": {
     "title": "About",
