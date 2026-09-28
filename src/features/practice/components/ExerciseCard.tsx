@@ -1,10 +1,13 @@
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router'
 
 import { findUnit } from '@/content/registry'
 import { formatTemplate } from '@/content/blocks/templates'
 import type { Exercise, LocalizedAnswer } from '@/content/schema'
 import { useContentLocale } from '@/shared/i18n/useContentLocale'
+import { GEOGEBRA_APPS } from '@/shared/site'
 import { buttonPrimary, buttonSecondary } from '@/shared/ui/buttons'
+import { ExternalLink } from '@/shared/ui/ExternalLink'
 import { MathText } from '@/shared/ui/MathText'
 
 interface ExerciseCardProps {
@@ -103,13 +106,22 @@ export function ExerciseCard({ exercise, copied, onNewExercise, onCopyLink }: Ex
         ))}
       </ol>
 
-      <footer className="mt-6 flex flex-wrap gap-3">
+      <footer className="mt-6 flex flex-wrap items-center gap-3">
         <button type="button" className={buttonPrimary} onClick={onNewExercise}>
           {t('practice.newExercise')}
         </button>
         <button type="button" className={buttonSecondary} onClick={onCopyLink}>
           {copied ? t('practice.linkCopied') : t('practice.copyLink')}
         </button>
+        <Link to="/board" className={buttonSecondary}>
+          {t('practice.board')}
+        </Link>
+        <Link to="/calculator" className={buttonSecondary}>
+          {t('practice.calculator')}
+        </Link>
+        <ExternalLink href={GEOGEBRA_APPS.graphing} className="text-sm">
+          {t('practice.geogebra')}
+        </ExternalLink>
       </footer>
     </article>
   )

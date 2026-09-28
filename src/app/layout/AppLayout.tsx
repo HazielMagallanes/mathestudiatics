@@ -4,6 +4,7 @@ import { Outlet } from 'react-router'
 
 import { SiteFooter } from '@/app/layout/SiteFooter'
 import { SiteHeader } from '@/app/layout/SiteHeader'
+import { UpdatePrompt } from '@/app/layout/UpdatePrompt'
 import { FALLBACK_LOCALE } from '@/shared/i18n'
 
 function RouteFallback() {
@@ -38,6 +39,7 @@ export function AppLayout() {
         </Suspense>
       </main>
       <SiteFooter />
+      <UpdatePrompt />
     </div>
   )
 }

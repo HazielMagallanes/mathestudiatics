@@ -33,9 +33,13 @@ export default function ToolsPage() {
         <li className="rounded-lg border border-rule bg-surface-raised p-5">
           <h2 className="text-xl font-semibold">{t('tools.calculator.title')}</h2>
           <p className="mt-2 text-sm text-fg-muted">{t('tools.calculator.description')}</p>
-          <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-fg-muted">
-            {t('common.comingSoon')}
-          </p>
+          <Link
+            to="/calculator"
+            className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-accent underline-offset-4 hover:underline"
+          >
+            {t('tools.calculator.open')}
+            <span aria-hidden="true">→</span>
+          </Link>
         </li>
         <li className="rounded-lg border border-rule bg-surface-raised p-5 sm:col-span-2">
           <h2 className="text-xl font-semibold">{t('tools.geogebra.title')}</h2>

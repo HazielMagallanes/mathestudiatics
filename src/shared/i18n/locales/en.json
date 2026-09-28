@@ -87,6 +87,9 @@
     "steps": "Show solution",
     "seed": "Seed",
     "combined": "Combined",
+    "geogebra": "Open GeoGebra",
+    "board": "Whiteboard",
+    "calculator": "Calculator",
     "noGenerator": "There are no exercises for that combination yet. Try another difficulty or unit.",
     "history": {
       "title": "History",
@@ -111,7 +114,8 @@
     },
     "calculator": {
       "title": "Scientific calculator",
-      "description": "Operations, functions and memory, with history."
+      "description": "Operations, functions and memory, with history.",
+      "open": "Open calculator"
     },
     "geogebra": {
       "title": "GeoGebra",
@@ -120,6 +124,49 @@
       "classic": "Classic",
       "scientific": "Calculator",
       "geometry": "Geometry"
+    }
+  },
+  "calculator": {
+    "title": "Scientific calculator",
+    "description": "Operations, functions, memory and history, without leaving the browser.",
+    "expression": "Expression",
+    "expressionPlaceholder": "For example: 2 + 3 * sin(30)",
+    "result": "Result",
+    "angleMode": "Angle mode",
+    "degrees": "Degrees",
+    "radians": "Radians",
+    "memory": "Memory",
+    "memoryAdd": "M+",
+    "memorySubtract": "M−",
+    "memoryRecall": "MR",
+    "memoryClear": "MC",
+    "equals": "Evaluate",
+    "history": "History",
+    "historyEmpty": "No calculations yet.",
+    "reuse": "Reuse",
+    "keys": {
+      "clear": "Clear",
+      "backspace": "Delete one character",
+      "power": "Power",
+      "divide": "Divide",
+      "multiply": "Multiply",
+      "subtract": "Subtract",
+      "add": "Add",
+      "sqrt": "Square root",
+      "cbrt": "Cube root",
+      "abs": "Absolute value",
+      "factorial": "Factorial",
+      "decimal": "Decimal separator",
+      "asin": "Arcsine",
+      "acos": "Arccosine",
+      "atan": "Arctangent"
+    },
+    "errors": {
+      "syntax": "Check the expression: there is a syntax error.",
+      "divisionByZero": "Division by zero is not allowed.",
+      "domain": "The value is outside the domain of the function.",
+      "overflow": "The result is too large.",
+      "limit": "The expression is too long."
     }
   },
   "whiteboard": {
@@ -195,5 +242,9 @@
   "footer": {
     "license": "Code MIT · Content CC BY-SA 4.0",
     "source": "Source code on GitHub"
+  },
+  "pwa": {
+    "updateAvailable": "A new version is available.",
+    "update": "Update"
   }
 }

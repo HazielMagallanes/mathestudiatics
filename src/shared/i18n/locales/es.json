@@ -87,6 +87,9 @@
     "steps": "Ver resolución",
     "seed": "Semilla",
     "combined": "Combinado",
+    "geogebra": "Abrir GeoGebra",
+    "board": "Pizarra",
+    "calculator": "Calculadora",
     "noGenerator": "Todavía no hay ejercicios para esa combinación. Probá otra dificultad u otra unidad.",
     "history": {
       "title": "Historial",
@@ -111,7 +114,8 @@
     },
     "calculator": {
       "title": "Calculadora científica",
-      "description": "Operaciones, funciones y memoria, con historial."
+      "description": "Operaciones, funciones y memoria, con historial.",
+      "open": "Abrir calculadora"
     },
     "geogebra": {
       "title": "GeoGebra",
@@ -120,6 +124,49 @@
       "classic": "Clásica",
       "scientific": "Calculadora",
       "geometry": "Geometría"
+    }
+  },
+  "calculator": {
+    "title": "Calculadora científica",
+    "description": "Operaciones, funciones, memoria e historial, sin salir del navegador.",
+    "expression": "Expresión",
+    "expressionPlaceholder": "Por ejemplo: 2 + 3 * sin(30)",
+    "result": "Resultado",
+    "angleMode": "Modo angular",
+    "degrees": "Grados",
+    "radians": "Radianes",
+    "memory": "Memoria",
+    "memoryAdd": "M+",
+    "memorySubtract": "M−",
+    "memoryRecall": "MR",
+    "memoryClear": "MC",
+    "equals": "Calcular",
+    "history": "Historial",
+    "historyEmpty": "Todavía no hay cálculos.",
+    "reuse": "Reusar",
+    "keys": {
+      "clear": "Limpiar",
+      "backspace": "Borrar un carácter",
+      "power": "Potencia",
+      "divide": "Dividir",
+      "multiply": "Multiplicar",
+      "subtract": "Restar",
+      "add": "Sumar",
+      "sqrt": "Raíz cuadrada",
+      "cbrt": "Raíz cúbica",
+      "abs": "Valor absoluto",
+      "factorial": "Factorial",
+      "decimal": "Separador decimal",
+      "asin": "Arcoseno",
+      "acos": "Arcocoseno",
+      "atan": "Arcotangente"
+    },
+    "errors": {
+      "syntax": "Revisá la expresión: hay un error de sintaxis.",
+      "divisionByZero": "No se puede dividir por cero.",
+      "domain": "El valor está fuera del dominio de la función.",
+      "overflow": "El resultado es demasiado grande.",
+      "limit": "La expresión es demasiado larga."
     }
   },
   "whiteboard": {
@@ -195,5 +242,9 @@
   "footer": {
     "license": "Código MIT · Contenido CC BY-SA 4.0",
     "source": "Código fuente en GitHub"
+  },
+  "pwa": {
+    "updateAvailable": "Hay una versión nueva disponible.",
+    "update": "Actualizar"
   }
 }
