@@ -196,20 +196,8 @@
     "title": "Whiteboard",
     "description": "Solve by hand or with the keyboard: strokes, shapes, text and formulas.",
     "boardLabel": "Solving whiteboard",
-    "instructions": "Draw with the mouse, finger or stylus; you can also type text and formulas to solve with the keyboard.",
+    "instructions": "The board displays what you type in the math notepad (top-left). Move lines with the mouse or the arrow keys, and navigate the view with Ctrl+wheel, space+drag or the zoom buttons.",
     "toolsLabel": "Whiteboard tools",
-    "tools": {
-      "select": "Select",
-      "pen": "Pen",
-      "highlighter": "Highlighter",
-      "eraser": "Eraser",
-      "line": "Line",
-      "arrow": "Arrow",
-      "rect": "Rectangle",
-      "circle": "Circle",
-      "text": "Text",
-      "pan": "Pan"
-    },
     "notepad": {
       "title": "Math typing",
       "hint": "Type one step per line and press Enter: it renders instantly and lands on the board, top-left. ↑/↓ to move, click to edit, Ctrl+Backspace to delete.",
@@ -225,8 +213,6 @@
       "openInPractice": "Open in practice",
       "unpin": "Unpin"
     },
-    "color": "Color",
-    "strokeWidth": "Width",
     "grid": "Grid",
     "gridOptions": {
       "dots": "Dots",

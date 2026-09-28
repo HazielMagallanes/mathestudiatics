@@ -23,25 +23,28 @@ beforeEach(async () => {
 })
 
 describe('whiteboard page', () => {
-  it('renders the board and the toolbar', async () => {
+  it('renders the board and the view controls', async () => {
     await renderBoard()
 
     expect(screen.getByRole('application', { name: 'Pizarra de resolución' })).toBeInTheDocument()
-    expect(screen.getByRole('toolbar', { name: 'Herramientas de la pizarra' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Lápiz' })).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.getByRole('button', { name: 'Deshacer' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Acercar' })).toBeInTheDocument()
+    expect(screen.getByLabelText('Cuadrícula')).toBeInTheDocument()
   })
 
-  it('switches tools through the toolbar and keyboard shortcuts', async () => {
+  it('zooms and resets the view', async () => {
     const user = userEvent.setup()
     await renderBoard()
 
-    await user.click(screen.getByRole('button', { name: 'Goma' }))
+    const board = screen.getByRole('application', { name: 'Pizarra de resolución' })
 
-    expect(screen.getByRole('button', { name: 'Goma' })).toHaveAttribute('aria-pressed', 'true')
+    await user.click(screen.getByRole('button', { name: 'Acercar' }))
 
-    await user.keyboard('p')
+    expect(board.getAttribute('viewBox')).not.toBe('0 0 1600 1000')
 
-    expect(screen.getByRole('button', { name: 'Lápiz' })).toHaveAttribute('aria-pressed', 'true')
+    await user.click(screen.getByRole('button', { name: 'Vista inicial' }))
+
+    expect(board.getAttribute('viewBox')).toBe('0 0 1600 1000')
   })
 
   it('adds a typed formula to the board with a live preview', async () => {

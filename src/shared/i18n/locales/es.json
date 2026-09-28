@@ -196,20 +196,8 @@
     "title": "Pizarra",
     "description": "Resolvé a mano o con el teclado: trazos, figuras, texto y fórmulas.",
     "boardLabel": "Pizarra de resolución",
-    "instructions": "Dibujá con el mouse, el dedo o el lápiz; también podés escribir texto y fórmulas para resolver con el teclado.",
+    "instructions": "El tablero muestra lo que escribís en la escritura matemática (arriba a la izquierda). Podés mover las líneas con el mouse o las flechas, y navegar la vista con Ctrl+rueda, espacio y arrastre, o los botones de zoom.",
     "toolsLabel": "Herramientas de la pizarra",
-    "tools": {
-      "select": "Seleccionar",
-      "pen": "Lápiz",
-      "highlighter": "Resaltador",
-      "eraser": "Goma",
-      "line": "Línea",
-      "arrow": "Flecha",
-      "rect": "Rectángulo",
-      "circle": "Círculo",
-      "text": "Texto",
-      "pan": "Mover vista"
-    },
     "notepad": {
       "title": "Escritura matemática",
       "hint": "Escribí un paso por línea y apretá Enter: se renderiza al instante y queda en el tablero, arriba a la izquierda. ↑/↓ para moverte, clic para editar, Ctrl+Retroceso para borrar.",
@@ -225,8 +213,6 @@
       "openInPractice": "Ver en práctica",
       "unpin": "Quitar"
     },
-    "color": "Color",
-    "strokeWidth": "Grosor",
     "grid": "Cuadrícula",
     "gridOptions": {
       "dots": "Puntos",

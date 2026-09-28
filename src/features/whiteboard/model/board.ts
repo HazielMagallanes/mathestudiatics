@@ -4,10 +4,6 @@ import {
   type BoardObject,
   type MathObject,
   type Point,
-  type ShapeKind,
-  type ShapeObject,
-  type StrokeObject,
-  type StrokePoint,
   type TextObject,
 } from '@/features/whiteboard/model/types'
 
@@ -81,29 +77,6 @@ export function bringToFront(board: Board, id: string): Board {
   }
 
   return { objects: [...board.objects.filter((candidate) => candidate.id !== id), object] }
-}
-
-export function createStroke(
-  points: StrokePoint[],
-  options: { color: string; width: number; highlighter?: boolean },
-): StrokeObject {
-  return {
-    id: createId(),
-    kind: 'stroke',
-    points,
-    color: options.color,
-    width: options.width,
-    highlighter: options.highlighter ?? false,
-  }
-}
-
-export function createShape(
-  kind: ShapeKind,
-  start: Point,
-  end: Point,
-  options: { color: string; width: number },
-): ShapeObject {
-  return { id: createId(), kind, start, end, color: options.color, width: options.width }
 }
 
 export function createText(

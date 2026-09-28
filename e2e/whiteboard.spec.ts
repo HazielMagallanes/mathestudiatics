@@ -18,97 +18,78 @@ async function openBoard(page: Page): Promise<{ board: Locator; box: { x: number
   return { board, box: { x: boundingBox.x, y: boundingBox.y } }
 }
 
-async function drawStroke(
-  page: Page,
-  box: { x: number; y: number },
-  path: readonly [number, number][],
-): Promise<void> {
-  const [first, ...rest] = path
-
-  if (!first) {
-    return
-  }
-
-  await page.mouse.move(box.x + first[0], box.y + first[1])
-  await page.mouse.down()
-
-  for (const [x, y] of rest) {
-    await page.mouse.move(box.x + x, box.y + y, { steps: 8 })
-  }
-
-  await page.mouse.up()
-}
-
-test('draws a stroke, undoes and redoes it', async ({ page }) => {
-  const { board, box } = await openBoard(page)
-
-  await drawStroke(page, box, [
-    [120, 120],
-    [220, 180],
-    [300, 140],
-  ])
-
-  await expect(board.locator('[data-object-kind="stroke"]')).toHaveCount(1)
-
-  await page.getByRole('button', { name: 'Deshacer' }).click()
-  await expect(board.locator('[data-object-kind="stroke"]')).toHaveCount(0)
-
-  await page.getByRole('button', { name: 'Rehacer' }).click()
-  await expect(board.locator('[data-object-kind="stroke"]')).toHaveCount(1)
-})
-
-test('selects a stroke, nudges it with the keyboard and deletes it', async ({ page }) => {
-  const { board, box } = await openBoard(page)
-
-  await drawStroke(page, box, [
-    [150, 150],
-    [260, 200],
-  ])
-
-  const stroke = board.locator('[data-object-kind="stroke"]')
-
-  await page.keyboard.press('v')
-  await page.mouse.click(box.x + 205, box.y + 175)
-
-  await expect(board.locator('[data-selection="true"]')).toHaveCount(1)
-
-  const before = await stroke.locator('path').getAttribute('d')
-
-  await page.keyboard.press('ArrowRight')
-  await page.keyboard.press('ArrowRight')
-
-  await expect.poll(async () => stroke.locator('path').getAttribute('d')).not.toBe(before)
-
-  await page.keyboard.press('Delete')
-
-  await expect(stroke).toHaveCount(0)
-})
-
-test('adds typed text and a notepad formula to the board', async ({ page }) => {
-  const { board } = await openBoard(page)
-
-  await page.getByLabel('Texto').fill('Paso 1')
-  await page.getByRole('button', { name: 'Agregar texto' }).click()
-  await expect(board.locator('[data-object-kind="text"]')).toHaveCount(1)
-  await expect(board.locator('[data-object-kind="text"]')).toContainText('Paso 1')
-
+async function addNotepadLine(page: Page, value: string): Promise<void> {
   const notepad = page.getByLabel('Nueva línea')
 
-  await notepad.fill('1/2 + 3/4')
+  await notepad.fill(value)
   await notepad.press('Enter')
+}
+
+test('renders typed lines on the board and undoes them', async ({ page }) => {
+  const { board } = await openBoard(page)
+
+  await addNotepadLine(page, '1/2 + 3/4')
 
   await expect(board.locator('[data-object-kind="math"]')).toHaveCount(1)
   await expect(board.locator('foreignObject .katex')).toHaveCount(1)
-  await expect(page.getByRole('button', { name: 'Línea 1', exact: true })).toBeVisible()
+
+  await page.getByRole('button', { name: 'Deshacer' }).click()
+  await expect(board.locator('[data-object-kind="math"]')).toHaveCount(0)
+
+  await page.getByRole('button', { name: 'Rehacer' }).click()
+  await expect(board.locator('[data-object-kind="math"]')).toHaveCount(1)
+})
+
+test('stacks typed lines from the top-left', async ({ page }) => {
+  const { board } = await openBoard(page)
+
+  await addNotepadLine(page, 'x^2 - 4 = 0')
+  await addNotepadLine(page, '2x + 3 = 7')
+
+  const boxes = await board.locator('foreignObject').evaluateAll((nodes) =>
+    nodes.map((node) => ({
+      x: Number(node.getAttribute('x')),
+      y: Number(node.getAttribute('y')),
+    })),
+  )
+
+  expect(boxes).toHaveLength(2)
+  expect(boxes[0]?.x).toBe(48)
+  expect(boxes[1]?.x).toBe(48)
+  expect((boxes[1]?.y ?? 0) > (boxes[0]?.y ?? 0)).toBe(true)
+})
+
+test('selects a line, moves it with the keyboard and deletes it', async ({ page }) => {
+  const { board } = await openBoard(page)
+
+  await addNotepadLine(page, 'x + 1 = 3')
+
+  const line = board.locator('[data-object-kind="math"]')
+  const lineBox = await line.locator('foreignObject').boundingBox()
+
+  if (!lineBox) {
+    throw new Error('typed line has no bounding box')
+  }
+
+  await page.mouse.click(lineBox.x + lineBox.width / 2, lineBox.y + lineBox.height / 2)
+
+  await expect(board.locator('[data-selection="true"]')).toHaveCount(1)
+
+  const before = await line.locator('foreignObject').getAttribute('y')
+
+  await page.keyboard.press('ArrowDown')
+
+  await expect.poll(async () => line.locator('foreignObject').getAttribute('y')).not.toBe(before)
+
+  await page.keyboard.press('Delete')
+
+  await expect(line).toHaveCount(0)
 })
 
 test('edits and deletes notepad lines', async ({ page }) => {
   const { board } = await openBoard(page)
 
-  const notepad = page.getByLabel('Nueva línea')
-
-  await notepad.fill('x^2 - 4 = 0')
-  await notepad.press('Enter')
+  await addNotepadLine(page, 'x^2 - 4 = 0')
 
   await page.getByRole('button', { name: 'Línea 1', exact: true }).click()
 
@@ -124,15 +105,22 @@ test('edits and deletes notepad lines', async ({ page }) => {
   await expect(board.locator('[data-object-kind="math"]')).toHaveCount(0)
 })
 
+test('adds typed text to the board', async ({ page }) => {
+  const { board } = await openBoard(page)
+
+  await page.getByLabel('Texto').fill('Paso 1')
+  await page.getByRole('button', { name: 'Agregar texto' }).click()
+
+  await expect(board.locator('[data-object-kind="text"]')).toHaveCount(1)
+  await expect(board.locator('[data-object-kind="text"]')).toContainText('Paso 1')
+})
+
 test('keeps the board when navigating away and back', async ({ page }) => {
-  const { board, box } = await openBoard(page)
+  const { board } = await openBoard(page)
 
-  await drawStroke(page, box, [
-    [140, 140],
-    [240, 200],
-  ])
+  await addNotepadLine(page, '3/4')
 
-  await expect(board.locator('[data-object-kind="stroke"]')).toHaveCount(1)
+  await expect(board.locator('[data-object-kind="math"]')).toHaveCount(1)
 
   // Client-side navigation unmounts the board, which flushes the save.
   await page
@@ -142,19 +130,7 @@ test('keeps the board when navigating away and back', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1, name: 'Herramientas' })).toBeVisible()
 
   await page.getByRole('link', { name: 'Abrir pizarra' }).click()
-  await expect(page.locator('[data-object-kind="stroke"]')).toHaveCount(1)
-})
-
-test('switches tools with keyboard shortcuts', async ({ page }) => {
-  const { board } = await openBoard(page)
-
-  await board.click({ position: { x: 40, y: 40 } })
-
-  await page.keyboard.press('e')
-  await expect(page.getByRole('button', { name: 'Goma' })).toHaveAttribute('aria-pressed', 'true')
-
-  await page.keyboard.press('p')
-  await expect(page.getByRole('button', { name: 'Lápiz' })).toHaveAttribute('aria-pressed', 'true')
+  await expect(page.locator('[data-object-kind="math"]')).toHaveCount(1)
 })
 
 test('has no accessibility violations', async ({ page }) => {

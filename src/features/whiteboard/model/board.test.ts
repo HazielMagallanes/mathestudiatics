@@ -4,8 +4,6 @@ import {
   addObject,
   bringToFront,
   createMath,
-  createShape,
-  createStroke,
   createText,
   duplicateObject,
   emptyBoard,
@@ -14,52 +12,58 @@ import {
   removeObject,
   updateObject,
 } from '@/features/whiteboard/model/board'
-import type { StrokeObject } from '@/features/whiteboard/model/types'
+import type { ShapeObject, StrokeObject } from '@/features/whiteboard/model/types'
 
-function sampleStroke(): StrokeObject {
-  return createStroke(
-    [
+/** Objects saved by older versions: the board renders and moves them. */
+function legacyStroke(): StrokeObject {
+  return {
+    id: 'stroke-1',
+    kind: 'stroke',
+    points: [
       { x: 10, y: 10, pressure: 0.5 },
       { x: 40, y: 30, pressure: 0.6 },
     ],
-    { color: '#111111', width: 4 },
-  )
+    color: '#111111',
+    width: 4,
+    highlighter: false,
+  }
+}
+
+function legacyShape(): ShapeObject {
+  return {
+    id: 'shape-1',
+    kind: 'rect',
+    start: { x: 0, y: 0 },
+    end: { x: 20, y: 10 },
+    color: '#111111',
+    width: 2,
+  }
 }
 
 describe('board operations', () => {
   it('adds, finds and removes objects without mutating the original', () => {
     const board = emptyBoard()
-    const stroke = sampleStroke()
-    const withStroke = addObject(board, stroke)
+    const math = createMath({ x: 0, y: 0 }, 'x^{2}')
+    const withMath = addObject(board, math)
 
     expect(board.objects).toHaveLength(0)
-    expect(findObject(withStroke, stroke.id)).toBe(stroke)
-    expect(removeObject(withStroke, stroke.id).objects).toHaveLength(0)
-    expect(findObject(withStroke, 'missing')).toBeUndefined()
+    expect(findObject(withMath, math.id)).toBe(math)
+    expect(removeObject(withMath, math.id).objects).toHaveLength(0)
+    expect(findObject(withMath, 'missing')).toBeUndefined()
   })
 
-  it('moves strokes, shapes and text', () => {
-    const shape = createShape(
-      'rect',
-      { x: 0, y: 0 },
-      { x: 20, y: 10 },
-      { color: '#111111', width: 2 },
-    )
+  it('moves math, text and legacy objects', () => {
+    const math = createMath({ x: 5, y: 5 }, 'x^{2}')
     const text = createText({ x: 5, y: 5 }, 'hola', { color: '#111111' })
-    const stroke = sampleStroke()
-    let board = addObject(addObject(addObject(emptyBoard(), shape), text), stroke)
+    const stroke = legacyStroke()
+    let board = addObject(addObject(addObject(emptyBoard(), math), text), stroke)
 
-    board = moveObject(board, shape.id, 10, -5)
+    board = moveObject(board, math.id, 10, -5)
     board = moveObject(board, text.id, 0, 7)
     board = moveObject(board, stroke.id, -3, 3)
 
-    const movedShape = findObject(board, shape.id)
-
-    expect(movedShape).toMatchObject({ start: { x: 10, y: -5 }, end: { x: 30, y: 5 } })
-
-    const movedText = findObject(board, text.id)
-
-    expect(movedText).toMatchObject({ position: { x: 5, y: 12 } })
+    expect(findObject(board, math.id)).toMatchObject({ position: { x: 15, y: 0 } })
+    expect(findObject(board, text.id)).toMatchObject({ position: { x: 5, y: 12 } })
 
     const movedStroke = findObject(board, stroke.id)
 
@@ -76,19 +80,19 @@ describe('board operations', () => {
   })
 
   it('duplicates with a new id and an offset', () => {
-    const stroke = sampleStroke()
-    const board = duplicateObject(addObject(emptyBoard(), stroke), stroke.id)
+    const math = createMath({ x: 10, y: 10 }, 'x^{2}')
+    const board = duplicateObject(addObject(emptyBoard(), math), math.id)
 
     expect(board.objects).toHaveLength(2)
 
     const [original, copy] = board.objects
 
     expect(copy?.id).not.toBe(original?.id)
-    expect(copy?.kind === 'stroke' && copy.points[0]).toMatchObject({ x: 34, y: 34 })
+    expect(copy).toMatchObject({ kind: 'math', position: { x: 34, y: 34 } })
   })
 
   it('ignores duplication and reordering of missing objects', () => {
-    const board = addObject(emptyBoard(), sampleStroke())
+    const board = addObject(emptyBoard(), legacyShape())
 
     expect(duplicateObject(board, 'missing')).toBe(board)
     expect(bringToFront(board, 'missing')).toBe(board)

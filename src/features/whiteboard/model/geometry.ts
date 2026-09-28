@@ -148,30 +148,3 @@ export function hitTest(object: BoardObject, point: Point, tolerance: number): b
       return pointInRect(point, objectBounds(object), tolerance)
   }
 }
-
-export function snapToGrid(point: Point, grid: number): Point {
-  if (grid <= 0) {
-    return point
-  }
-
-  return { x: Math.round(point.x / grid) * grid, y: Math.round(point.y / grid) * grid }
-}
-
-/** Constrains the segment to the closest multiple of `stepRadians`. */
-export function snapToStep(start: Point, end: Point, stepRadians = Math.PI / 4): Point {
-  const dx = end.x - start.x
-  const dy = end.y - start.y
-  const distance = Math.hypot(dx, dy)
-
-  if (distance === 0) {
-    return end
-  }
-
-  const angle = Math.atan2(dy, dx)
-  const snapped = Math.round(angle / stepRadians) * stepRadians
-
-  return {
-    x: start.x + Math.cos(snapped) * distance,
-    y: start.y + Math.sin(snapped) * distance,
-  }
-}

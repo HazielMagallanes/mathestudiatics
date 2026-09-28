@@ -29,10 +29,10 @@
   trigonometric equation whose solution set is analysed with sets).
 - **Pin an exercise to the whiteboard** and solve it there with the statement
   always visible.
-- **Whiteboard**: keyboard- and mouse-first and touch/stylus-friendly — a
-  **math notepad** where you type one step per line in plain notation
-  (`1/2 + 3/4`, `x^2 - 4 = 0`) and see it rendered and placed on the board,
-  plus shapes, undo/redo, grid and axes, SVG/PNG export and autosave.
+- **Whiteboard**: a display surface for what you type — a **math notepad**
+  where you write one step per line in plain notation (`1/2 + 3/4`,
+  `x^2 - 4 = 0`) and see it rendered and placed on the board, with selection,
+  movement, pan/zoom, grid and axes, undo/redo, SVG/PNG export and autosave.
 - **Scientific calculator**: own parser (no `eval`), degrees/radians, memory,
   `ans`, history, plain-language errors, exact fractions and **equation solving**
   (linear and quadratic with `x`, including simplified irrational roots).

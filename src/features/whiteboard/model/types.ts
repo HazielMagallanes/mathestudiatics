@@ -14,40 +14,17 @@ export interface Rect {
   height: number
 }
 
-export const TOOLS = [
-  'select',
-  'pen',
-  'highlighter',
-  'eraser',
-  'line',
-  'arrow',
-  'rect',
-  'circle',
-  'text',
-  'pan',
-] as const
-
-export type ToolId = (typeof TOOLS)[number]
-
-export const TOOL_SHORTCUTS: Record<ToolId, string> = {
-  select: 'V',
-  pen: 'P',
-  highlighter: 'H',
-  eraser: 'E',
-  line: 'L',
-  arrow: 'A',
-  rect: 'R',
-  circle: 'C',
-  text: 'T',
-  pan: 'O',
-}
-
 export type ShapeKind = 'line' | 'arrow' | 'rect' | 'circle'
 
 interface BoardObjectBase {
   id: string
 }
 
+/**
+ * Legacy object kinds: the board no longer creates them (it is a display for
+ * typed input), but they are kept so boards saved by older versions still
+ * render, move and export.
+ */
 export interface StrokeObject extends BoardObjectBase {
   kind: 'stroke'
   points: StrokePoint[]

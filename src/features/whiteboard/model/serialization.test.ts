@@ -1,32 +1,36 @@
 import { describe, expect, it } from 'vitest'
 
-import {
-  addObject,
-  createMath,
-  createShape,
-  createStroke,
-  createText,
-  emptyBoard,
-} from '@/features/whiteboard/model/board'
+import { addObject, createMath, createText, emptyBoard } from '@/features/whiteboard/model/board'
 import { deserializeBoard, serializeBoard } from '@/features/whiteboard/model/serialization'
 import { strokePath } from '@/features/whiteboard/model/stroke'
+import type { ShapeObject, StrokeObject } from '@/features/whiteboard/model/types'
+
+/** Legacy objects: boards saved by older versions still load and render. */
+const legacyStroke: StrokeObject = {
+  id: 'stroke-1',
+  kind: 'stroke',
+  points: [
+    { x: 0, y: 0, pressure: 0.5 },
+    { x: 10, y: 10, pressure: 0.7 },
+  ],
+  color: '#123456',
+  width: 3,
+  highlighter: true,
+}
+
+const legacyShape: ShapeObject = {
+  id: 'shape-1',
+  kind: 'arrow',
+  start: { x: 0, y: 0 },
+  end: { x: 50, y: 50 },
+  color: '#111111',
+  width: 2,
+}
 
 describe('serialization', () => {
   const board = addObject(
     addObject(
-      addObject(
-        addObject(
-          emptyBoard(),
-          createStroke(
-            [
-              { x: 0, y: 0, pressure: 0.5 },
-              { x: 10, y: 10, pressure: 0.7 },
-            ],
-            { color: '#123456', width: 3, highlighter: true },
-          ),
-        ),
-        createShape('arrow', { x: 0, y: 0 }, { x: 50, y: 50 }, { color: '#111111', width: 2 }),
-      ),
+      addObject(addObject(emptyBoard(), legacyStroke), legacyShape),
       createText({ x: 5, y: 5 }, 'hola\nmundo', { color: '#222222' }),
     ),
     createMath({ x: 1, y: 2 }, '\\frac{1}{2}'),
@@ -105,7 +109,7 @@ describe('serialization', () => {
   })
 })
 
-describe('strokePath', () => {
+describe('strokePath (legacy strokes)', () => {
   it('builds a closed SVG path from points', () => {
     const path = strokePath(
       [

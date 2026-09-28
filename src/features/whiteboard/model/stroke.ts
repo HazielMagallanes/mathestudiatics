@@ -59,12 +59,3 @@ export function strokePath(points: readonly StrokePoint[], options: StrokeRender
 
   return svgPathFromOutline(outline)
 }
-
-/** A single tap renders as a dot. */
-export function isDotStroke(points: readonly StrokePoint[]): boolean {
-  if (points.length !== 1) {
-    return false
-  }
-
-  return true
-}

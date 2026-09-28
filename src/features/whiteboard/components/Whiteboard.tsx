@@ -11,8 +11,6 @@ import { useTranslation } from 'react-i18next'
 import {
   addObject,
   createMath,
-  createShape,
-  createStroke,
   createText,
   duplicateObject,
   emptyBoard,
@@ -22,7 +20,7 @@ import {
   translateObject,
   updateObject,
 } from '@/features/whiteboard/model/board'
-import { hitTest, objectBounds, snapToStep } from '@/features/whiteboard/model/geometry'
+import { hitTest, objectBounds } from '@/features/whiteboard/model/geometry'
 import {
   canRedo,
   canUndo,
@@ -44,9 +42,6 @@ import {
   type Board,
   type BoardObject,
   type Point,
-  type ShapeObject,
-  type StrokeObject,
-  type ToolId,
 } from '@/features/whiteboard/model/types'
 import { clearSavedBoard, loadBoard, saveBoard } from '@/features/whiteboard/storage'
 import { plainToLatex } from '@/shared/math/plain-to-latex'
@@ -59,7 +54,6 @@ import { WhiteboardToolbar, type GridStyle } from './WhiteboardToolbar'
 
 const MIN_VIEW_WIDTH = 240
 const MAX_VIEW_WIDTH = BOARD_WIDTH * 2
-const SHAPE_TOOLS: readonly ToolId[] = ['line', 'arrow', 'rect', 'circle']
 
 interface ViewBox {
   x: number
@@ -69,8 +63,6 @@ interface ViewBox {
 }
 
 type Interaction =
-  | { kind: 'draw'; origin: StrokeObject }
-  | { kind: 'shape'; origin: ShapeObject }
   | { kind: 'move'; origin: BoardObject; start: Point }
   | { kind: 'pan'; startClient: Point; startView: { x: number; y: number } }
   | null
@@ -87,18 +79,19 @@ function downloadBlob(filename: string, blob: Blob): void {
   URL.revokeObjectURL(url)
 }
 
+/**
+ * The board is a display surface for typed input: the notepad creates math
+ * lines (and the text box adds annotations). Objects can be selected, moved,
+ * duplicated and deleted; the view can be panned and zoomed.
+ */
 export function Whiteboard({ className }: { className?: string }) {
   const { t } = useTranslation()
 
   const [history, setHistory] = useState<BoardHistory>(() => createHistory(emptyBoard()))
-  const [tool, setTool] = useState<ToolId>('pen')
-  const [color, setColor] = useState('#1e2a44')
-  const [strokeWidth, setStrokeWidth] = useState(4)
   const [grid, setGrid] = useState<GridStyle>('dots')
   const [showAxes, setShowAxes] = useState(false)
   const [view, setView] = useState<ViewBox>(INITIAL_VIEW)
   const [selectedId, setSelectedId] = useState<string | null>(null)
-  const [draft, setDraft] = useState<BoardObject | null>(null)
   const [preview, setPreview] = useState<Board | null>(null)
   const [loaded, setLoaded] = useState(false)
   const [status, setStatus] = useState<string | null>(null)
@@ -228,22 +221,10 @@ export function Whiteboard({ className }: { className?: string }) {
     setView(INITIAL_VIEW)
   }, [])
 
-  const eraseAt = useCallback(
-    (point: Point) => {
-      const tolerance = boardTolerance()
-      const hit = [...board.objects].reverse().find((object) => hitTest(object, point, tolerance))
-
-      if (hit) {
-        commitBoard(removeObject(board, hit.id))
-      }
-    },
-    [board, boardTolerance, commitBoard],
-  )
-
   const handlePointerDown = (event: ReactPointerEvent<SVGSVGElement>) => {
     const point = clientToBoard(event.clientX, event.clientY)
 
-    if (event.button === 1 || spacePressed.current || tool === 'pan') {
+    if (event.button === 1 || spacePressed.current) {
       event.currentTarget.setPointerCapture(event.pointerId)
       interaction.current = {
         kind: 'pan',
@@ -257,57 +238,17 @@ export function Whiteboard({ className }: { className?: string }) {
       return
     }
 
-    event.currentTarget.setPointerCapture(event.pointerId)
+    const tolerance = boardTolerance()
+    const hit = [...board.objects].reverse().find((object) => hitTest(object, point, tolerance))
 
-    if (tool === 'pen' || tool === 'highlighter') {
-      const stroke = createStroke(
-        [{ ...point, pressure: event.pressure > 0 ? event.pressure : 0.5 }],
-        {
-          color,
-          width: strokeWidth,
-          highlighter: tool === 'highlighter',
-        },
-      )
-
-      interaction.current = { kind: 'draw', origin: stroke }
-      setDraft(stroke)
+    if (hit) {
+      event.currentTarget.setPointerCapture(event.pointerId)
+      setSelectedId(hit.id)
+      interaction.current = { kind: 'move', origin: hit, start: point }
       return
     }
 
-    if (SHAPE_TOOLS.includes(tool)) {
-      const shape = createShape(tool as ShapeObject['kind'], point, point, {
-        color,
-        width: strokeWidth,
-      })
-
-      interaction.current = { kind: 'shape', origin: shape }
-      setDraft(shape)
-      return
-    }
-
-    if (tool === 'eraser') {
-      eraseAt(point)
-      return
-    }
-
-    if (tool === 'select') {
-      const tolerance = boardTolerance()
-      const hit = [...board.objects].reverse().find((object) => hitTest(object, point, tolerance))
-
-      if (hit) {
-        setSelectedId(hit.id)
-        interaction.current = { kind: 'move', origin: hit, start: point }
-      } else {
-        setSelectedId(null)
-      }
-
-      return
-    }
-
-    if (tool === 'text' && text.trim().length > 0) {
-      commitBoard(addObject(board, createText(point, text.trim(), { color })))
-      setText('')
-    }
+    setSelectedId(null)
   }
 
   const handlePointerMove = (event: ReactPointerEvent<SVGSVGElement>) => {
@@ -316,8 +257,6 @@ export function Whiteboard({ className }: { className?: string }) {
     if (!active) {
       return
     }
-
-    const point = clientToBoard(event.clientX, event.clientY)
 
     if (active.kind === 'pan') {
       const svg = svgRef.current
@@ -338,36 +277,7 @@ export function Whiteboard({ className }: { className?: string }) {
       return
     }
 
-    if (active.kind === 'draw') {
-      const last = active.origin.points[active.origin.points.length - 1]
-
-      if (last && Math.hypot(point.x - last.x, point.y - last.y) < 1.5) {
-        return
-      }
-
-      const next: StrokeObject = {
-        ...active.origin,
-        points: [
-          ...active.origin.points,
-          { ...point, pressure: event.pressure > 0 ? event.pressure : 0.5 },
-        ],
-      }
-
-      active.origin = next
-      setDraft(next)
-      return
-    }
-
-    if (active.kind === 'shape') {
-      const end = event.shiftKey ? snapToStep(active.origin.start, point) : point
-      const next: ShapeObject = { ...active.origin, end }
-
-      active.origin = next
-      setDraft(next)
-      return
-    }
-
-    // Only a move interaction can reach this point.
+    const point = clientToBoard(event.clientX, event.clientY)
     const dx = point.x - active.start.x
     const dy = point.y - active.start.y
 
@@ -379,15 +289,6 @@ export function Whiteboard({ className }: { className?: string }) {
     interaction.current = null
 
     if (!active) {
-      return
-    }
-
-    if (active.kind === 'draw' || active.kind === 'shape') {
-      if (draft) {
-        commitBoard(addObject(board, draft))
-      }
-
-      setDraft(null)
       return
     }
 
@@ -405,6 +306,16 @@ export function Whiteboard({ className }: { className?: string }) {
     }
 
     setPreview(null)
+  }
+
+  const handleDoubleClick = (event: React.MouseEvent<SVGSVGElement>): void => {
+    const point = clientToBoard(event.clientX, event.clientY)
+    const tolerance = boardTolerance()
+    const hit = [...board.objects].reverse().find((object) => hitTest(object, point, tolerance))
+
+    if (hit?.kind === 'math' && hit.entryIndex !== undefined) {
+      notepadRef.current?.focusEntry(hit.id)
+    }
   }
 
   const handleWheel = useCallback(
@@ -502,28 +413,6 @@ export function Whiteboard({ className }: { className?: string }) {
         return
       }
 
-      if (modifier) {
-        return
-      }
-
-      const toolByKey: Record<string, ToolId> = {
-        v: 'select',
-        p: 'pen',
-        h: 'highlighter',
-        e: 'eraser',
-        l: 'line',
-        a: 'arrow',
-        r: 'rect',
-        c: 'circle',
-        t: 'text',
-        o: 'pan',
-      }
-      const nextTool = toolByKey[key]
-
-      if (nextTool) {
-        setTool(nextTool)
-      }
-
       if (key === 'n') {
         document.getElementById(NOTEPAD_NEW_LINE_ID)?.focus()
       }
@@ -557,7 +446,7 @@ export function Whiteboard({ className }: { className?: string }) {
       return
     }
 
-    commitBoard(addObject(board, createText(centerOfView(), value, { color })))
+    commitBoard(addObject(board, createText(centerOfView(), value, { color: '#1e2a44' })))
     setText('')
   }
 
@@ -590,16 +479,6 @@ export function Whiteboard({ className }: { className?: string }) {
   const handleNotepadRemove = (entryId: string): void => {
     commitBoard(relayoutKeyboardEntries(removeObject(board, entryId)))
     setSelectedId((current) => (current === entryId ? null : current))
-  }
-
-  const handleBoardDoubleClick = (event: React.MouseEvent<SVGSVGElement>): void => {
-    const point = clientToBoard(event.clientX, event.clientY)
-    const tolerance = boardTolerance()
-    const hit = [...board.objects].reverse().find((object) => hitTest(object, point, tolerance))
-
-    if (hit?.kind === 'math' && hit.entryIndex !== undefined) {
-      notepadRef.current?.focusEntry(hit.id)
-    }
   }
 
   const exportSvg = () => {
@@ -683,15 +562,6 @@ export function Whiteboard({ className }: { className?: string }) {
   }
 
   const selectedObject = selectedId ? findObject(displayBoard, selectedId) : undefined
-  const cursorClass =
-    tool === 'select'
-      ? 'cursor-default'
-      : tool === 'pan'
-        ? 'cursor-grab'
-        : tool === 'eraser'
-          ? 'cursor-cell'
-          : 'cursor-crosshair'
-
   const gridPattern = useMemo(
     () =>
       grid === 'dots'
@@ -705,16 +575,10 @@ export function Whiteboard({ className }: { className?: string }) {
   return (
     <div className={cn('space-y-3', className)}>
       <WhiteboardToolbar
-        tool={tool}
-        color={color}
-        strokeWidth={strokeWidth}
         grid={grid}
         showAxes={showAxes}
         canUndo={canUndo(history)}
         canRedo={canRedo(history)}
-        onToolChange={setTool}
-        onColorChange={setColor}
-        onStrokeWidthChange={setStrokeWidth}
         onGridChange={setGrid}
         onToggleAxes={() => {
           setShowAxes((current) => !current)
@@ -754,16 +618,13 @@ export function Whiteboard({ className }: { className?: string }) {
         aria-label={t('whiteboard.boardLabel')}
         tabIndex={0}
         viewBox={`${String(view.x)} ${String(view.y)} ${String(view.width)} ${String(view.height)}`}
-        className={cn(
-          'border-rule bg-surface-raised h-[480px] w-full touch-none rounded-lg border select-none sm:h-[560px]',
-          cursorClass,
-        )}
+        className="border-rule bg-surface-raised h-[480px] w-full cursor-default touch-none rounded-lg border select-none sm:h-[560px]"
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
         onPointerLeave={handlePointerUp}
-        onDoubleClick={handleBoardDoubleClick}
+        onDoubleClick={handleDoubleClick}
         onContextMenu={(event) => {
           event.preventDefault()
         }}
@@ -829,8 +690,6 @@ export function Whiteboard({ className }: { className?: string }) {
         {displayBoard.objects.map((object) => (
           <ObjectView key={object.id} object={object} />
         ))}
-
-        {draft ? <ObjectView object={draft} /> : null}
 
         {selectedObject ? (
           <rect

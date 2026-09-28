@@ -4,6 +4,23 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.2.0] - 2026-09-28
+
+### Changed
+
+- The whiteboard is now a **display surface for typed input**: the pen,
+  highlighter, eraser, shapes and the tool palette were removed. Lines come from
+  the math notepad, and pointer input is for selecting, moving and panning.
+- The board toolbar keeps only the view controls: grid, axes, zoom, undo/redo,
+  clear and SVG/PNG export.
+- Boards saved by older versions still load, render, move and export: the legacy
+  stroke and shape kinds are kept for compatibility.
+
+### Removed
+
+- Drawing tools (pen, highlighter, eraser, line, arrow, rectangle, circle) and
+  the formula tool, which the notepad already replaced.
+
 ## [1.1.0] - 2026-09-28
 
 ### Added
