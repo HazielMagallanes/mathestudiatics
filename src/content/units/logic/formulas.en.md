@@ -9,8 +9,10 @@
 ## De Morgan laws
 
 $$
-\lnot(p \land q) \Leftrightarrow \lnot p \lor \lnot q \qquad
+\begin{gathered}
+\lnot(p \land q) \Leftrightarrow \lnot p \lor \lnot q \\
 \lnot(p \lor q) \Leftrightarrow \lnot p \land \lnot q
+\end{gathered}
 $$
 
 ## Notable equivalences

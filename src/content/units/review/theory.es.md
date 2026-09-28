@@ -14,8 +14,10 @@ común divisor. Para multiplicar se opera en línea y para dividir se multiplica
 por el recíproco:
 
 $$
-\frac{a}{b} \cdot \frac{c}{d} = \frac{a \cdot c}{b \cdot d}, \qquad
+\begin{gathered}
+\frac{a}{b} \cdot \frac{c}{d} = \frac{a \cdot c}{b \cdot d} \\
 \frac{a}{b} : \frac{c}{d} = \frac{a \cdot d}{b \cdot c}
+\end{gathered}
 $$
 
 ## Potencias y raíces
@@ -23,7 +25,12 @@ $$
 Una potencia con exponente negativo se invierte y un exponente fraccionario es
 una raíz:
 
-$$a^{-n} = \frac{1}{a^n}, \qquad a^{1/n} = \sqrt[n]{a}$$
+$$
+\begin{gathered}
+a^{-n} = \frac{1}{a^n} \\
+a^{1/n} = \sqrt[n]{a}
+\end{gathered}
+$$
 
 Para **extraer factores** de una raíz se escribe el radicando como un cuadrado
 (o cubo) por un resto: por ejemplo $72 = 36 \cdot 2$, entonces

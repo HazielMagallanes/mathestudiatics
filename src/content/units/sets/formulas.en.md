@@ -1,20 +1,25 @@
-| Concept              | Notation         |
-| -------------------- | ---------------- |
-| Membership           | $x \in A$        |
-| Inclusion            | $A \subseteq B$  |
-| Strict inclusion     | $A \subset B$    |
-| Empty set            | $\varnothing$    |
-| Power set            | $\mathcal{P}(A)$ |
-| Union                | $A \cup B$       |
-| Intersection         | $A \cap B$       |
-| Difference           | $A \setminus B$  |
-| Complement           | $A^c$            |
-| Symmetric difference | $A \triangle B$  |
-| Cardinality          | $\left           | A\right | $   |
+| Concept              | Notation                  |
+| -------------------- | ------------------------- |
+| Membership           | $x \in A$                 |
+| Inclusion            | $A \subseteq B$           |
+| Strict inclusion     | $A \subset B$             |
+| Empty set            | $\varnothing$             |
+| Power set            | $\mathcal{P}(A)$          |
+| Union                | $A \cup B$                |
+| Intersection         | $A \cap B$                |
+| Difference           | $A \setminus B$           |
+| Complement           | $A^c$                     |
+| Symmetric difference | $A \triangle B$           |
+| Cardinality          | $\left\vert A\right\vert$ |
 
 ## Number of subsets
 
-$$\left|\mathcal{P}(A)\right| = 2^n, \qquad \text{proper subsets} = 2^n - 1$$
+$$
+\begin{gathered}
+\left|\mathcal{P}(A)\right| = 2^n \\
+\text{proper subsets} = 2^n - 1
+\end{gathered}
+$$
 
 ## Inclusion–exclusion
 
@@ -32,13 +37,25 @@ $$\left|A \cup B\right| = \left|A\right| + \left|B\right| - \left|A \cap B\right
 
 ## Properties of the operations
 
-$$A \cup B = B \cup A, \qquad A \cap B = B \cap A$$
-
-$$A \cup \varnothing = A, \qquad A \cap \varnothing = \varnothing$$
+$$
+\begin{gathered}
+A \cup B = B \cup A \\
+A \cap B = B \cap A
+\end{gathered}
+$$
 
 $$
-\left(A \cup B\right)^c = A^c \cap B^c, \qquad
+\begin{gathered}
+A \cup \varnothing = A \\
+A \cap \varnothing = \varnothing
+\end{gathered}
+$$
+
+$$
+\begin{gathered}
+\left(A \cup B\right)^c = A^c \cap B^c \\
 \left(A \cap B\right)^c = A^c \cup B^c
+\end{gathered}
 $$
 
 $$

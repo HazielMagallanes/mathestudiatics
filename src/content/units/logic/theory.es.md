@@ -32,13 +32,17 @@ según su columna final:
 ## Equivalencias importantes
 
 $$
-\lnot(p \land q) \Leftrightarrow \lnot p \lor \lnot q, \qquad
+\begin{gathered}
+\lnot(p \land q) \Leftrightarrow \lnot p \lor \lnot q \\
 \lnot(p \lor q) \Leftrightarrow \lnot p \land \lnot q
+\end{gathered}
 $$
 
 $$
-p \Rightarrow q \Leftrightarrow \lnot q \Rightarrow \lnot p, \qquad
+\begin{gathered}
+p \Rightarrow q \Leftrightarrow \lnot q \Rightarrow \lnot p \\
 p \Leftrightarrow q \Leftrightarrow (p \Rightarrow q) \land (q \Rightarrow p)
+\end{gathered}
 $$
 
 La **contrarrecíproca** ($\lnot q \Rightarrow \lnot p$) es equivalente al

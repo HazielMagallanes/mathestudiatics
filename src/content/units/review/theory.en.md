@@ -14,15 +14,22 @@ greatest common divisor. Multiplication works across, and division multiplies by
 the reciprocal:
 
 $$
-\frac{a}{b} \cdot \frac{c}{d} = \frac{a \cdot c}{b \cdot d}, \qquad
+\begin{gathered}
+\frac{a}{b} \cdot \frac{c}{d} = \frac{a \cdot c}{b \cdot d} \\
 \frac{a}{b} : \frac{c}{d} = \frac{a \cdot d}{b \cdot c}
+\end{gathered}
 $$
 
 ## Powers and roots
 
 A negative exponent inverts the base, and a fractional exponent is a root:
 
-$$a^{-n} = \frac{1}{a^n}, \qquad a^{1/n} = \sqrt[n]{a}$$
+$$
+\begin{gathered}
+a^{-n} = \frac{1}{a^n} \\
+a^{1/n} = \sqrt[n]{a}
+\end{gathered}
+$$
 
 To **extract factors** from a root, write the radicand as a square (or cube)
 times a remainder: for example $72 = 36 \cdot 2$, so $\sqrt{72} = 6\sqrt{2}$.

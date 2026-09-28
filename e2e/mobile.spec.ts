@@ -85,4 +85,25 @@ test.describe('mobile layout', () => {
 
     await expect(page.getByRole('heading', { level: 1 })).toContainText('at your own pace')
   })
+
+  test('every display formula fits the screen without horizontal scrolling', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 640 })
+
+    for (const unit of ['review', 'logic', 'sets', 'trigonometry', 'vectors']) {
+      await page.goto(`./#/study/${unit}`)
+      await page.waitForTimeout(300)
+
+      const wide = await page.evaluate(() =>
+        [...document.querySelectorAll('.katex-display')]
+          .filter((element) => element.scrollWidth > element.clientWidth + 1)
+          .map((element) => {
+            const annotation = element.querySelector('annotation[encoding="application/x-tex"]')
+
+            return `${String(element.scrollWidth)}/${String(element.clientWidth)}: ${(annotation?.textContent ?? '').slice(0, 60)}`
+          }),
+      )
+
+      expect(wide, `unit "${unit}" has formulas wider than the screen`).toEqual([])
+    }
+  })
 })

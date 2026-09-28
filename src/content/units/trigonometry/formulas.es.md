@@ -9,8 +9,10 @@
 $$\sin^2\theta + \cos^2\theta = 1$$
 
 $$
-1 + \tan^2\theta = \sec^2\theta, \qquad
+\begin{gathered}
+1 + \tan^2\theta = \sec^2\theta \\
 \cot\theta = \frac{1}{\tan\theta} = \frac{\cos\theta}{\sin\theta}
+\end{gathered}
 $$
 
 ## Valores exactos frecuentes
@@ -25,15 +27,19 @@ $$
 ## Conversión de ángulos
 
 $$
-180° = \pi \text{ radianes}, \qquad
+\begin{gathered}
+180° = \pi \text{ radianes} \\
 \theta_{\text{rad}} = \theta_{\text{deg}} \cdot \frac{\pi}{180}
+\end{gathered}
 $$
 
 ## Gráficas
 
 $$
-y = a\sin(bx) + d \Rightarrow \text{amplitud} = \left|a\right|, \qquad
+\begin{gathered}
+y = a\sin(bx) + d \Rightarrow \text{amplitud} = \left|a\right| \\
 \text{período} = \frac{2\pi}{\left|b\right|}
+\end{gathered}
 $$
 
 ## Signos por cuadrante

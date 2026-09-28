@@ -147,6 +147,13 @@
     padding-block: 0.25rem;
   }
 
+  /* Small screens: slightly smaller display math so most formulas fit. */
+  @media (max-width: 480px) {
+    .prose-study .katex-display {
+      font-size: 0.88em;
+    }
+  }
+
   .prose-study th,
   .prose-study td {
     @apply border border-rule px-3 py-1.5 text-left;

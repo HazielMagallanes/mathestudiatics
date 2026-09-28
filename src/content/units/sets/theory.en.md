@@ -5,8 +5,10 @@ A **set** is a collection of objects, called **elements**. It is defined by
 condition is described:
 
 $$
-A = \left\{1, 2, 3\right\}, \qquad
+\begin{gathered}
+A = \left\{1, 2, 3\right\} \\
 B = \left\{x \in \mathbb{Z}: -3 \le x < 5\right\}
+\end{gathered}
 $$
 
 Membership is written $x \in A$ and non-membership $x \notin A$. The empty set
@@ -44,8 +46,10 @@ $$\left|A \cup B\right| = \left|A\right| + \left|B\right| - \left|A \cap B\right
 An interval is a set of real numbers:
 
 $$
-\left[a, b\right] = \left\{x \in \mathbb{R}: a \le x \le b\right\}, \qquad
+\begin{gathered}
+\left[a, b\right] = \left\{x \in \mathbb{R}: a \le x \le b\right\} \\
 \left(a, b\right) = \left\{x \in \mathbb{R}: a < x < b\right\}
+\end{gathered}
 $$
 
 Intervals can be joined and intersected like any set; the intersection of two

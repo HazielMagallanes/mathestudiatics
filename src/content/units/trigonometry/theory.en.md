@@ -3,9 +3,11 @@
 In a right triangle, for an acute angle $\theta$:
 
 $$
-\sin\theta = \frac{\text{opposite}}{\text{hypotenuse}}, \qquad
-\cos\theta = \frac{\text{adjacent}}{\text{hypotenuse}}, \qquad
+\begin{gathered}
+\sin\theta = \frac{\text{opposite}}{\text{hypotenuse}} \\
+\cos\theta = \frac{\text{adjacent}}{\text{hypotenuse}} \\
 \tan\theta = \frac{\text{opposite}}{\text{adjacent}}
+\end{gathered}
 $$
 
 The **tangent** is also the ratio between sine and cosine, and the fundamental

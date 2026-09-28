@@ -21,8 +21,10 @@
 ## Components from magnitude and direction
 
 $$
-v_x = \left|\vec{v}\right|\cos\theta, \qquad
+\begin{gathered}
+v_x = \left|\vec{v}\right|\cos\theta \\
 v_y = \left\|\vec{v}\right\|\sin\theta
+\end{gathered}
 $$
 
 ## Properties of the dot product

@@ -13,8 +13,10 @@ Addition and subtraction work **component-wise**, and multiplying by a scalar
 multiplies each component:
 
 $$
-\vec{u} + \vec{v} = \left(u_x + v_x,; u_y + v_y\right), \qquad
+\begin{gathered}
+\vec{u} + \vec{v} = \left(u_x + v_x,; u_y + v_y\right) \\
 k\vec{u} = \left(ku_x,\; ku_y\right)
+\end{gathered}
 $$
 
 Geometrically, the sum is represented with the parallelogram rule.

@@ -3,9 +3,11 @@
 En un triángulo rectángulo, para un ángulo agudo $\theta$:
 
 $$
-\sin\theta = \frac{\text{opuesto}}{\text{hipotenusa}}, \qquad
-\cos\theta = \frac{\text{adyacente}}{\text{hipotenusa}}, \qquad
+\begin{gathered}
+\sin\theta = \frac{\text{opuesto}}{\text{hipotenusa}} \\
+\cos\theta = \frac{\text{adyacente}}{\text{hipotenusa}} \\
 \tan\theta = \frac{\text{opuesto}}{\text{adyacente}}
+\end{gathered}
 $$
 
 La **tangente** también es el cociente entre seno y coseno, y se cumple la

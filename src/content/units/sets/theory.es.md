@@ -5,8 +5,10 @@ por **extensión** cuando se listan sus elementos y por **comprensión** cuando 
 describe una condición:
 
 $$
-A = \left\{1, 2, 3\right\}, \qquad
+\begin{gathered}
+A = \left\{1, 2, 3\right\} \\
 B = \left\{x \in \mathbb{Z}: -3 \le x < 5\right\}
+\end{gathered}
 $$
 
 La pertenencia se escribe $x \in A$ y la no pertenencia $x \notin A$. El
@@ -44,8 +46,10 @@ $$\left|A \cup B\right| = \left|A\right| + \left|B\right| - \left|A \cap B\right
 Un intervalo es un conjunto de números reales:
 
 $$
-\left[a, b\right] = \left\{x \in \mathbb{R}: a \le x \le b\right\}, \qquad
+\begin{gathered}
+\left[a, b\right] = \left\{x \in \mathbb{R}: a \le x \le b\right\} \\
 \left(a, b\right) = \left\{x \in \mathbb{R}: a < x < b\right\}
+\end{gathered}
 $$
 
 Los intervalos se pueden unir e intersectar como cualquier conjunto; la

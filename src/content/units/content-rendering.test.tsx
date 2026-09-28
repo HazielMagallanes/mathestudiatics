@@ -45,6 +45,11 @@ describe('study content rendering', () => {
           expect(table, 'table element').not.toBeNull()
           expect(table?.parentElement?.className, 'scroll container').toContain('overflow-x-auto')
           expect(container.querySelector('th'), 'table header').not.toBeNull()
+
+          // A cell split by an unescaped pipe leaves literal `$` delimiters behind.
+          for (const cell of container.querySelectorAll('td, th')) {
+            expect(cell.textContent, `cell: ${cell.textContent}`).not.toContain('$')
+          }
         })
       }
     })

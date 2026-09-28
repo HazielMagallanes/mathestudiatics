@@ -13,8 +13,10 @@ La suma y la resta se hacen **componente a componente**, y el producto por un
 escalar multiplica cada componente:
 
 $$
-\vec{u} + \vec{v} = \left(u_x + v_x,; u_y + v_y\right), \qquad
+\begin{gathered}
+\vec{u} + \vec{v} = \left(u_x + v_x,; u_y + v_y\right) \\
 k\vec{u} = \left(ku_x,\; ku_y\right)
+\end{gathered}
 $$
 
 Geométricamente, la suma se representa con la regla del paralelogramo.
