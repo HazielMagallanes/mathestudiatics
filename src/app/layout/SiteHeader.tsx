@@ -30,6 +30,33 @@ function BrandMark() {
   )
 }
 
+function BurgerIcon({ open }: { open: boolean }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      className="size-5"
+    >
+      {open ? (
+        <>
+          <path d="M5 5l10 10" />
+          <path d="M15 5 5 15" />
+        </>
+      ) : (
+        <>
+          <path d="M3 6h14" />
+          <path d="M3 10h14" />
+          <path d="M3 14h14" />
+        </>
+      )}
+    </svg>
+  )
+}
+
 export function SiteHeader() {
   const { t } = useTranslation()
   const location = useLocation()
@@ -64,11 +91,13 @@ export function SiteHeader() {
     cn('block px-1 py-2 text-sm font-medium', isActive ? 'text-accent' : 'text-fg-muted')
 
   return (
-    <header className="sticky top-0 z-20 border-b border-rule bg-surface/95 backdrop-blur">
-      <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-        <Link to="/" className="flex items-center gap-2">
+    <header className="border-rule bg-surface/95 sticky top-0 z-20 border-b backdrop-blur">
+      <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
+        <Link to="/" className="flex min-w-0 items-center gap-2">
           <BrandMark />
-          <span className="font-serif text-lg font-semibold tracking-tight">{t('app.name')}</span>
+          <span className="truncate font-serif text-lg font-semibold tracking-tight">
+            {t('app.name')}
+          </span>
         </Link>
 
         <nav aria-label={t('nav.menu')} className="hidden items-center gap-1 md:flex">
@@ -79,19 +108,24 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
-          <LocaleSwitcher />
-          <ThemeSwitcher />
+        <div className="flex shrink-0 items-center gap-2">
+          {/* Compact controls: hidden on very narrow screens (they live in the panel there). */}
+          <div className="hidden items-center gap-2 xs:flex">
+            <LocaleSwitcher compact />
+            <ThemeSwitcher compact />
+          </div>
+
           <button
             type="button"
             aria-expanded={isMenuOpen}
             aria-controls="site-menu-mobile"
+            aria-label={isMenuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
             onClick={() => {
               setOpenedAt(isMenuOpen ? null : location.pathname)
             }}
-            className="rounded-md border border-rule bg-surface-raised px-2 py-1 text-xs font-semibold text-fg-muted md:hidden"
+            className="border-rule bg-surface-raised text-fg-muted hover:text-accent flex size-8 items-center justify-center rounded-md border md:hidden"
           >
-            {t('nav.menu')}
+            <BurgerIcon open={isMenuOpen} />
           </button>
         </div>
       </div>
@@ -99,7 +133,7 @@ export function SiteHeader() {
       <nav
         id="site-menu-mobile"
         aria-label={t('nav.mobileMenu')}
-        className={cn('border-t border-rule md:hidden', isMenuOpen ? 'block' : 'hidden')}
+        className={cn('border-rule md:hidden', isMenuOpen ? 'block' : 'hidden')}
       >
         <ul className="mx-auto flex max-w-5xl flex-col px-4 py-2 sm:px-6">
           {NAV_ITEMS.map((item) => (
@@ -117,6 +151,12 @@ export function SiteHeader() {
             </li>
           ))}
         </ul>
+
+        {/* Below the compact-controls breakpoint the full controls live here. */}
+        <div className="border-rule mx-auto flex max-w-5xl flex-wrap items-center gap-3 border-t px-4 py-3 sm:px-6 xs:hidden">
+          <LocaleSwitcher />
+          <ThemeSwitcher />
+        </div>
       </nav>
     </header>
   )

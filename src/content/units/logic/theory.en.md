@@ -31,11 +31,15 @@ its final column:
 
 ## Key equivalences
 
-$$ \lnot(p \land q) \Leftrightarrow \lnot p \lor \lnot q, \qquad
-\lnot(p \lor q) \Leftrightarrow \lnot p \land \lnot q$$
+$$
+\lnot(p \land q) \Leftrightarrow \lnot p \lor \lnot q, \qquad
+\lnot(p \lor q) \Leftrightarrow \lnot p \land \lnot q
+$$
 
-$$p \Rightarrow q \Leftrightarrow \lnot q \Rightarrow \lnot p, \qquad
-p \Leftrightarrow q \Leftrightarrow (p \Rightarrow q) \land (q \Rightarrow p)$$
+$$
+p \Rightarrow q \Leftrightarrow \lnot q \Rightarrow \lnot p, \qquad
+p \Leftrightarrow q \Leftrightarrow (p \Rightarrow q) \land (q \Rightarrow p)
+$$
 
 The **contrapositive** ($\lnot q \Rightarrow \lnot p$) is equivalent to the
 original conditional; the **converse** ($q \Rightarrow p$) is not.
@@ -51,4 +55,6 @@ Over a domain $D$:
 
 Negation swaps the quantifiers:
 $\lnot \forall x: P(x) \Leftrightarrow \exists x: \lnot P(x)$.
+
+$$
 $$

@@ -4,8 +4,10 @@ A **set** is a collection of objects, called **elements**. It is defined by
 **extension** when its elements are listed, and by **comprehension** when a
 condition is described:
 
-$$ A = \left{1, 2, 3\right}, \qquad
-B = \left\{x \in \mathbb{Z}: -3 \le x < 5\right\}$$
+$$
+A = \left\{1, 2, 3\right\}, \qquad
+B = \left\{x \in \mathbb{Z}: -3 \le x < 5\right\}
+$$
 
 Membership is written $x \in A$ and non-membership $x \notin A$. The empty set
 is denoted $\varnothing$ or $\left\{\right\}$.
@@ -20,13 +22,13 @@ the **power set** $\mathcal{P}(A)$.
 
 ## Operations
 
-| Operation | Notation | Definition |
-|---|---|---|
-| Union | $A \cup B$ | elements in $A$ or in $B$ |
-| Intersection | $A \cap B$ | elements in $A$ and in $B$ |
-| Difference | $A \setminus B$ | elements of $A$ not in $B$ |
-| Complement | $A^c$ | elements of the universe not in $A$ |
-| Symmetric difference | $A \triangle B$ | elements in exactly one of the two |
+| Operation            | Notation        | Definition                          |
+| -------------------- | --------------- | ----------------------------------- |
+| Union                | $A \cup B$      | elements in $A$ or in $B$           |
+| Intersection         | $A \cap B$      | elements in $A$ and in $B$          |
+| Difference           | $A \setminus B$ | elements of $A$ not in $B$          |
+| Complement           | $A^c$           | elements of the universe not in $A$ |
+| Symmetric difference | $A \triangle B$ | elements in exactly one of the two  |
 
 Two sets are **disjoint** when $A \cap B = \varnothing$.
 
@@ -41,9 +43,10 @@ $$\left|A \cup B\right| = \left|A\right| + \left|B\right| - \left|A \cap B\right
 
 An interval is a set of real numbers:
 
-$$\left[a, b\right] = \left\{x \in \mathbb{R}: a \le x \le b\right\}, \qquad
-\left(a, b\right) = \left\{x \in \mathbb{R}: a < x < b\right\}$$
+$$
+\left[a, b\right] = \left\{x \in \mathbb{R}: a \le x \le b\right\}, \qquad
+\left(a, b\right) = \left\{x \in \mathbb{R}: a < x < b\right\}
+$$
 
 Intervals can be joined and intersected like any set; the intersection of two
 intervals is another interval (or the empty set).
-$$

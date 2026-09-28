@@ -16,18 +16,22 @@
     "about": "About",
     "skipToContent": "Skip to content",
     "menu": "Menu",
-    "mobileMenu": "Menu (mobile)"
+    "mobileMenu": "Menu (mobile)",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
   },
   "locale": {
     "label": "Language",
     "es": "Español",
-    "en": "English"
+    "en": "English",
+    "switchTo": "Current language: {{current}}. Switch to {{language}}"
   },
   "theme": {
     "label": "Theme",
     "light": "Light",
     "dark": "Dark",
-    "system": "System"
+    "system": "System",
+    "cycle": "Theme: {{current}}. Switch to {{next}}"
   },
   "home": {
     "title": "Math, at your own pace",

@@ -39,7 +39,7 @@ test('navigates between sections', async ({ page }) => {
 test('switches language and persists it across reloads', async ({ page }) => {
   await page.goto('./')
 
-  await page.getByRole('group', { name: 'Idioma' }).getByRole('button', { name: 'English' }).click()
+  await page.getByRole('button', { name: /Idioma actual/ }).click()
 
   await expect(page.getByRole('heading', { level: 1 })).toContainText('at your own pace')
   await expect(page.locator('html')).toHaveAttribute('lang', 'en')
@@ -51,13 +51,17 @@ test('switches language and persists it across reloads', async ({ page }) => {
 test('applies dark theme and persists it across reloads', async ({ page }) => {
   await page.goto('./')
 
-  await page.getByRole('combobox', { name: 'Tema' }).selectOption('dark')
+  const themeButton = page.getByRole('button', { name: /^Tema:/ })
+
+  // system → light → dark
+  await themeButton.click()
+  await themeButton.click()
 
   await expect(page.locator('html')).toHaveClass(/dark/)
+  await expect(themeButton).toHaveAccessibleName(/Oscuro/)
 
   await page.reload()
   await expect(page.locator('html')).toHaveClass(/dark/)
-  await expect(page.getByRole('combobox', { name: 'Tema' })).toHaveValue('dark')
 })
 
 test('shows the not-found page for unknown routes', async ({ page }) => {

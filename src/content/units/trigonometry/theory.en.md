@@ -2,9 +2,11 @@
 
 In a right triangle, for an acute angle $\theta$:
 
-$$ \sin\theta = \frac{\text{opposite}}{\text{hypotenuse}}, \qquad
+$$
+\sin\theta = \frac{\text{opposite}}{\text{hypotenuse}}, \qquad
 \cos\theta = \frac{\text{adjacent}}{\text{hypotenuse}}, \qquad
-\tan\theta = \frac{\text{opposite}}{\text{adjacent}}$$
+\tan\theta = \frac{\text{opposite}}{\text{adjacent}}
+$$
 
 The **tangent** is also the ratio between sine and cosine, and the fundamental
 Pythagorean relation holds:
@@ -17,10 +19,10 @@ An angle is measured in **degrees** ($360°$ is one turn) or in **radians**
 ($2\pi$ is one turn). On the unit circle, $\cos\theta$ is the horizontal
 coordinate and $\sin\theta$ the vertical one.
 
-| Angle | $0$ | $\frac{\pi}{6}$ | $\frac{\pi}{4}$ | $\frac{\pi}{3}$ | $\frac{\pi}{2}$ |
-|---|---|---|---|---|---|
-| $\sin$ | $0$ | $\frac{1}{2}$ | $\frac{\sqrt{2}}{2}$ | $\frac{\sqrt{3}}{2}$ | $1$ |
-| $\cos$ | $1$ | $\frac{\sqrt{3}}{2}$ | $\frac{\sqrt{2}}{2}$ | $\frac{1}{2}$ | $0$ |
+| Angle  | $0$ | $\frac{\pi}{6}$      | $\frac{\pi}{4}$      | $\frac{\pi}{3}$      | $\frac{\pi}{2}$ |
+| ------ | --- | -------------------- | -------------------- | -------------------- | --------------- |
+| $\sin$ | $0$ | $\frac{1}{2}$        | $\frac{\sqrt{2}}{2}$ | $\frac{\sqrt{3}}{2}$ | $1$             |
+| $\cos$ | $1$ | $\frac{\sqrt{3}}{2}$ | $\frac{\sqrt{2}}{2}$ | $\frac{1}{2}$        | $0$             |
 
 The sign in the other quadrants follows from the position: in the second
 quadrant the sine is positive and the cosine negative, and so on.
@@ -44,4 +46,6 @@ For $y = a \cdot \sin(bx) + d$:
 
 In height and distance problems, draw the triangle, identify the known angle and
 choose the ratio that links the data to the unknown.
+
+$$
 $$

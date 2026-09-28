@@ -31,11 +31,15 @@ según su columna final:
 
 ## Equivalencias importantes
 
-$$ \lnot(p \land q) \Leftrightarrow \lnot p \lor \lnot q, \qquad
-\lnot(p \lor q) \Leftrightarrow \lnot p \land \lnot q$$
+$$
+\lnot(p \land q) \Leftrightarrow \lnot p \lor \lnot q, \qquad
+\lnot(p \lor q) \Leftrightarrow \lnot p \land \lnot q
+$$
 
-$$p \Rightarrow q \Leftrightarrow \lnot q \Rightarrow \lnot p, \qquad
-p \Leftrightarrow q \Leftrightarrow (p \Rightarrow q) \land (q \Rightarrow p)$$
+$$
+p \Rightarrow q \Leftrightarrow \lnot q \Rightarrow \lnot p, \qquad
+p \Leftrightarrow q \Leftrightarrow (p \Rightarrow q) \land (q \Rightarrow p)
+$$
 
 La **contrarrecíproca** ($\lnot q \Rightarrow \lnot p$) es equivalente al
 condicional original; la **recíproca** ($q \Rightarrow p$) no lo es.
@@ -51,4 +55,6 @@ Sobre un dominio $D$:
 
 La negación intercambia los cuantificadores:
 $\lnot \forall x: P(x) \Leftrightarrow \exists x: \lnot P(x)$.
+
+$$
 $$

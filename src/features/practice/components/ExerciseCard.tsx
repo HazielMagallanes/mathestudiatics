@@ -65,7 +65,7 @@ export function ExerciseCard({ exercise, copied, onNewExercise, onCopyLink }: Ex
       <ol className="mt-4 list-none space-y-6 p-0">
         {exercise.parts.map((part, partIndex) => (
           <li key={partIndex}>
-            <div className="text-lg leading-relaxed">
+            <div className="overflow-x-auto text-lg leading-relaxed">
               <MathText text={formatTemplate(part.prompt, locale)} />
             </div>
 

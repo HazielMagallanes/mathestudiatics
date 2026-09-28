@@ -12,8 +12,10 @@ $$\vec{AB} = B - A$$
 Addition and subtraction work **component-wise**, and multiplying by a scalar
 multiplies each component:
 
-$$ \vec{u} + \vec{v} = \left(u_x + v_x,; u_y + v_y\right), \qquad
-k\vec{u} = \left(ku_x,\; ku_y\right)$$
+$$
+\vec{u} + \vec{v} = \left(u_x + v_x,; u_y + v_y\right), \qquad
+k\vec{u} = \left(ku_x,\; ku_y\right)
+$$
 
 Geometrically, the sum is represented with the parallelogram rule.
 
@@ -48,4 +50,6 @@ $$\cos\theta = \frac{\vec{u} \cdot \vec{v}}{\left\|\vec{u}\right\|\left\|\vec{v}
 From the norm and the direction (an angle) the components of a vector follow:
 $v_x = \left\|\vec{v}\right\|\cos\theta$ and
 $v_y = \left\|\vec{v}\right\|\sin\theta$.
+
+$$
 $$

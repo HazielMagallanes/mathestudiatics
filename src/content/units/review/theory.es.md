@@ -13,8 +13,10 @@ El resultado se **simplifica** dividiendo numerador y denominador por su máximo
 común divisor. Para multiplicar se opera en línea y para dividir se multiplica
 por el recíproco:
 
-$$ \frac{a}{b} \cdot \frac{c}{d} = \frac{a \cdot c}{b \cdot d}, \qquad
-\frac{a}{b} : \frac{c}{d} = \frac{a \cdot d}{b \cdot c}$$
+$$
+\frac{a}{b} \cdot \frac{c}{d} = \frac{a \cdot c}{b \cdot d}, \qquad
+\frac{a}{b} : \frac{c}{d} = \frac{a \cdot d}{b \cdot c}
+$$
 
 ## Potencias y raíces
 
@@ -48,4 +50,6 @@ Siempre conviene **verificar** la solución reemplazando en la ecuación origina
 Un intervalo es un conjunto de números reales entre dos extremos. Los extremos
 se incluyen con corchete ($\le$ o $\ge$) y se excluyen con paréntesis ($<$ o
 $>$). El infinito **nunca** se incluye: siempre lleva paréntesis.
+
+$$
 $$

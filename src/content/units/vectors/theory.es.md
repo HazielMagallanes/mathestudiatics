@@ -12,8 +12,10 @@ $$\vec{AB} = B - A$$
 La suma y la resta se hacen **componente a componente**, y el producto por un
 escalar multiplica cada componente:
 
-$$ \vec{u} + \vec{v} = \left(u_x + v_x,; u_y + v_y\right), \qquad
-k\vec{u} = \left(ku_x,\; ku_y\right)$$
+$$
+\vec{u} + \vec{v} = \left(u_x + v_x,; u_y + v_y\right), \qquad
+k\vec{u} = \left(ku_x,\; ku_y\right)
+$$
 
 Geométricamente, la suma se representa con la regla del paralelogramo.
 
@@ -48,4 +50,6 @@ $$\cos\theta = \frac{\vec{u} \cdot \vec{v}}{\left\|\vec{u}\right\|\left\|\vec{v}
 Con la norma y la dirección (un ángulo) se obtienen las componentes de un
 vector: $v_x = \left\|\vec{v}\right\|\cos\theta$ y
 $v_y = \left\|\vec{v}\right\|\sin\theta$.
+
+$$
 $$

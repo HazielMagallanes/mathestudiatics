@@ -20,15 +20,21 @@
 
 ## Components from magnitude and direction
 
-$$ v_x = \left|\vec{v}\right|\cos\theta, \qquad
-v_y = \left\|\vec{v}\right\|\sin\theta$$
+$$
+v_x = \left|\vec{v}\right|\cos\theta, \qquad
+v_y = \left\|\vec{v}\right\|\sin\theta
+$$
 
 ## Properties of the dot product
 
 $$\vec{u} \cdot \vec{v} = \vec{v} \cdot \vec{u}$$
 
-$$\vec{u} \cdot \left(\vec{v} + \vec{w}\right) =
-\vec{u} \cdot \vec{v} + \vec{u} \cdot \vec{w}$$
+$$
+\vec{u} \cdot \left(\vec{v} + \vec{w}\right) =
+\vec{u} \cdot \vec{v} + \vec{u} \cdot \vec{w}
+$$
 
 $$\left\|\vec{u}\right\|^2 = \vec{u} \cdot \vec{u}$$
+
+$$
 $$

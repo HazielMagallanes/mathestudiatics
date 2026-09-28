@@ -13,8 +13,10 @@ The result is **simplified** by dividing numerator and denominator by their
 greatest common divisor. Multiplication works across, and division multiplies by
 the reciprocal:
 
-$$ \frac{a}{b} \cdot \frac{c}{d} = \frac{a \cdot c}{b \cdot d}, \qquad
-\frac{a}{b} : \frac{c}{d} = \frac{a \cdot d}{b \cdot c}$$
+$$
+\frac{a}{b} \cdot \frac{c}{d} = \frac{a \cdot c}{b \cdot d}, \qquad
+\frac{a}{b} : \frac{c}{d} = \frac{a \cdot d}{b \cdot c}
+$$
 
 ## Powers and roots
 
@@ -48,4 +50,6 @@ original equation.
 An interval is a set of real numbers between two endpoints. Endpoints are
 included with a bracket ($\le$ or $\ge$) and excluded with a parenthesis ($<$
 or $>$). Infinity is **never** included: it always takes a parenthesis.
+
+$$
 $$

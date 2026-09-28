@@ -2,9 +2,11 @@
 
 En un triángulo rectángulo, para un ángulo agudo $\theta$:
 
-$$ \sin\theta = \frac{\text{opuesto}}{\text{hipotenusa}}, \qquad
+$$
+\sin\theta = \frac{\text{opuesto}}{\text{hipotenusa}}, \qquad
 \cos\theta = \frac{\text{adyacente}}{\text{hipotenusa}}, \qquad
-\tan\theta = \frac{\text{opuesto}}{\text{adyacente}}$$
+\tan\theta = \frac{\text{opuesto}}{\text{adyacente}}
+$$
 
 La **tangente** también es el cociente entre seno y coseno, y se cumple la
 relación pitagórica fundamental:
@@ -17,10 +19,10 @@ Un ángulo se mide en **grados** ($360°$ es una vuelta) o en **radianes**
 ($2\pi$ es una vuelta). En la circunferencia unitaria, $\cos\theta$ es la
 coordenada horizontal y $\sin\theta$ la vertical.
 
-| Ángulo | $0$ | $\frac{\pi}{6}$ | $\frac{\pi}{4}$ | $\frac{\pi}{3}$ | $\frac{\pi}{2}$ |
-|---|---|---|---|---|---|
-| $\sin$ | $0$ | $\frac{1}{2}$ | $\frac{\sqrt{2}}{2}$ | $\frac{\sqrt{3}}{2}$ | $1$ |
-| $\cos$ | $1$ | $\frac{\sqrt{3}}{2}$ | $\frac{\sqrt{2}}{2}$ | $\frac{1}{2}$ | $0$ |
+| Ángulo | $0$ | $\frac{\pi}{6}$      | $\frac{\pi}{4}$      | $\frac{\pi}{3}$      | $\frac{\pi}{2}$ |
+| ------ | --- | -------------------- | -------------------- | -------------------- | --------------- |
+| $\sin$ | $0$ | $\frac{1}{2}$        | $\frac{\sqrt{2}}{2}$ | $\frac{\sqrt{3}}{2}$ | $1$             |
+| $\cos$ | $1$ | $\frac{\sqrt{3}}{2}$ | $\frac{\sqrt{2}}{2}$ | $\frac{1}{2}$        | $0$             |
 
 El signo en los otros cuadrantes se deduce de la posición: en el segundo
 cuadrante el seno es positivo y el coseno negativo, y así sucesivamente.
@@ -44,4 +46,6 @@ Para $y = a \cdot \sin(bx) + d$:
 
 En problemas de alturas y distancias se dibuja el triángulo, se identifica el
 ángulo conocido y se elige la razón que relaciona los datos con la incógnita.
+
+$$
 $$

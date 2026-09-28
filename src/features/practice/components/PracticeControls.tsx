@@ -81,7 +81,7 @@ export function PracticeControls({
           </div>
         </fieldset>
 
-        <label className="flex items-center gap-2 rounded-lg border border-rule bg-surface-raised p-4 text-sm">
+        <label className="border-rule bg-surface-raised flex flex-wrap items-center gap-2 rounded-lg border p-4 text-sm">
           <span className="font-semibold">{t('practice.mix')}</span>
           <select
             value={mix}

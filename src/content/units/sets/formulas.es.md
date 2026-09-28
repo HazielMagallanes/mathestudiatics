@@ -36,6 +36,10 @@ $$A \cup B = B \cup A, \qquad A \cap B = B \cap A$$
 
 $$A \cup \varnothing = A, \qquad A \cap \varnothing = \varnothing$$
 
-$$ \left(A \cup B\right)^c = A^c \cap B^c, \qquad
-\left(A \cap B\right)^c = A^c \cup B^c$$
+$$
+\left(A \cup B\right)^c = A^c \cap B^c, \qquad
+\left(A \cap B\right)^c = A^c \cup B^c
+$$
+
+$$
 $$

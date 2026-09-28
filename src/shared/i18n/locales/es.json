@@ -16,18 +16,22 @@
     "about": "Acerca de",
     "skipToContent": "Saltar al contenido",
     "menu": "Menú",
-    "mobileMenu": "Menú (móvil)"
+    "mobileMenu": "Menú (móvil)",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú"
   },
   "locale": {
     "label": "Idioma",
     "es": "Español",
-    "en": "English"
+    "en": "English",
+    "switchTo": "Idioma actual: {{current}}. Cambiar a {{language}}"
   },
   "theme": {
     "label": "Tema",
     "light": "Claro",
     "dark": "Oscuro",
-    "system": "Sistema"
+    "system": "Sistema",
+    "cycle": "Tema: {{current}}. Cambiar a {{next}}"
   },
   "home": {
     "title": "Matemática, a tu ritmo",
