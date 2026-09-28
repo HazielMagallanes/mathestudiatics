@@ -36,6 +36,49 @@ describe('serialization', () => {
     expect(deserializeBoard(serializeBoard(board))).toEqual(board)
   })
 
+  it('writes version 2 payloads', () => {
+    const payload: unknown = JSON.parse(serializeBoard(board))
+
+    expect(payload).toMatchObject({ version: 2 })
+  })
+
+  it('migrates version 1 boards, keeping old math objects in place', () => {
+    const legacy = JSON.stringify({
+      version: 1,
+      objects: [
+        {
+          id: 'legacy-math',
+          kind: 'math',
+          position: { x: 320, y: 210 },
+          latex: 'x^{2}',
+          fontSize: 28,
+        },
+      ],
+    })
+
+    const migrated = deserializeBoard(legacy)
+
+    expect(migrated?.objects).toHaveLength(1)
+    expect(migrated?.objects[0]).toMatchObject({
+      kind: 'math',
+      positionMode: 'free',
+      position: { x: 320, y: 210 },
+    })
+  })
+
+  it('keeps notepad metadata through a round trip', () => {
+    const withEntry = addObject(
+      emptyBoard(),
+      createMath({ x: 48, y: 72 }, '\\frac{1}{2}', {
+        source: '1/2',
+        entryIndex: 0,
+        positionMode: 'auto',
+      }),
+    )
+
+    expect(deserializeBoard(serializeBoard(withEntry))).toEqual(withEntry)
+  })
+
   it('rejects malformed payloads instead of throwing', () => {
     expect(deserializeBoard('not json')).toBeNull()
     expect(deserializeBoard('{"version":1}')).toBeNull()

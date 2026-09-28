@@ -84,7 +84,7 @@ test('selects a stroke, nudges it with the keyboard and deletes it', async ({ pa
   await expect(stroke).toHaveCount(0)
 })
 
-test('adds typed text and a formula to the board', async ({ page }) => {
+test('adds typed text and a notepad formula to the board', async ({ page }) => {
   const { board } = await openBoard(page)
 
   await page.getByLabel('Texto').fill('Paso 1')
@@ -92,10 +92,57 @@ test('adds typed text and a formula to the board', async ({ page }) => {
   await expect(board.locator('[data-object-kind="text"]')).toHaveCount(1)
   await expect(board.locator('[data-object-kind="text"]')).toContainText('Paso 1')
 
-  await page.getByLabel('Fórmula (LaTeX)').fill('\\frac{1}{2}')
-  await page.getByRole('button', { name: 'Agregar fórmula' }).click()
+  const notepad = page.getByLabel('Nueva línea')
+
+  await notepad.fill('1/2 + 3/4')
+  await notepad.press('Enter')
+
   await expect(board.locator('[data-object-kind="math"]')).toHaveCount(1)
   await expect(board.locator('foreignObject .katex')).toHaveCount(1)
+  await expect(page.getByRole('button', { name: 'Línea 1', exact: true })).toBeVisible()
+})
+
+test('edits and deletes notepad lines', async ({ page }) => {
+  const { board } = await openBoard(page)
+
+  const notepad = page.getByLabel('Nueva línea')
+
+  await notepad.fill('x^2 - 4 = 0')
+  await notepad.press('Enter')
+
+  await page.getByRole('button', { name: 'Línea 1', exact: true }).click()
+
+  const line = page.getByLabel('Línea 1', { exact: true })
+
+  await line.fill('2x + 3 = 7')
+  await line.press('Enter')
+
+  await expect(board.locator('[data-object-kind="math"]')).toHaveCount(1)
+
+  await page.getByRole('button', { name: 'Borrar la línea 1' }).click()
+
+  await expect(board.locator('[data-object-kind="math"]')).toHaveCount(0)
+})
+
+test('keeps the board when navigating away and back', async ({ page }) => {
+  const { board, box } = await openBoard(page)
+
+  await drawStroke(page, box, [
+    [140, 140],
+    [240, 200],
+  ])
+
+  await expect(board.locator('[data-object-kind="stroke"]')).toHaveCount(1)
+
+  // Client-side navigation unmounts the board, which flushes the save.
+  await page
+    .getByRole('navigation', { name: 'Menú' })
+    .getByRole('link', { name: 'Herramientas' })
+    .click()
+  await expect(page.getByRole('heading', { level: 1, name: 'Herramientas' })).toBeVisible()
+
+  await page.getByRole('link', { name: 'Abrir pizarra' }).click()
+  await expect(page.locator('[data-object-kind="stroke"]')).toHaveCount(1)
 })
 
 test('switches tools with keyboard shortcuts', async ({ page }) => {

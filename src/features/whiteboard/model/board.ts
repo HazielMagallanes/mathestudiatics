@@ -124,7 +124,12 @@ export function createText(
 export function createMath(
   position: Point,
   latex: string,
-  options: { fontSize?: number } = {},
+  options: {
+    fontSize?: number
+    source?: string
+    entryIndex?: number
+    positionMode?: 'auto' | 'free'
+  } = {},
 ): MathObject {
   return {
     id: createId(),
@@ -132,5 +137,8 @@ export function createMath(
     position,
     latex,
     fontSize: options.fontSize ?? 28,
+    ...(options.source !== undefined ? { source: options.source } : {}),
+    ...(options.entryIndex !== undefined ? { entryIndex: options.entryIndex } : {}),
+    ...(options.positionMode !== undefined ? { positionMode: options.positionMode } : {}),
   }
 }

@@ -3,6 +3,7 @@ import type { CalculatorError, Token } from '@/features/calculator/engine/tokeni
 export type ExpressionNode =
   | { kind: 'number'; value: number }
   | { kind: 'constant'; name: 'pi' | 'e' | 'ans' }
+  | { kind: 'variable'; name: 'x' }
   | { kind: 'unary'; operator: '+' | '-'; operand: ExpressionNode }
   | {
       kind: 'binary'
@@ -118,8 +119,13 @@ class Parser {
         continue
       }
 
-      // Implicit multiplication: 2π, 3(4+5), 2sin(30).
-      if (token?.type === 'constant' || token?.type === 'function' || token?.type === 'lparen') {
+      // Implicit multiplication: 2π, 3(4+5), 2sin(30), 2x.
+      if (
+        token?.type === 'constant' ||
+        token?.type === 'function' ||
+        token?.type === 'variable' ||
+        token?.type === 'lparen'
+      ) {
         const right = this.parseUnary()
 
         if ('error' in right) {
@@ -210,6 +216,10 @@ class Parser {
       }
 
       return { error: { code: 'syntax', position: token.position } }
+    }
+
+    if (token.type === 'variable') {
+      return { value: { kind: 'variable', name: 'x' } }
     }
 
     if (token.type === 'function') {

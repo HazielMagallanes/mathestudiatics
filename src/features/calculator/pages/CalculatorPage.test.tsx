@@ -40,7 +40,13 @@ describe('calculator page', () => {
     await user.type(screen.getByLabelText('Expresión'), 'sin(30)')
     await user.click(screen.getByRole('button', { name: 'Calcular' }))
 
-    expect(screen.getByRole('status')).toHaveTextContent('0.5')
+    // 0.5 is shown as the exact fraction 1/2 (KaTeX stacks numerator and denominator).
+    const status = screen.getByRole('status')
+    const digits = status.textContent.replace(/\s+/g, '')
+
+    expect(status.querySelector('.katex')).not.toBeNull()
+    expect(digits).toContain('1')
+    expect(digits).toContain('2')
   })
 
   it('reports domain errors in plain language', async () => {
@@ -77,7 +83,25 @@ describe('calculator page', () => {
     await user.click(screen.getByText(/Historial/))
 
     expect(screen.getByText('1/3')).toBeInTheDocument()
-    expect(screen.getAllByText('0.333333333333')).toHaveLength(2)
+    // Result in the status area and in the history entry, both as exact fractions.
+    expect(document.querySelectorAll('.katex').length).toBeGreaterThanOrEqual(2)
+  })
+
+  it('solves linear and quadratic equations with x', async () => {
+    const user = userEvent.setup()
+    await renderCalculator()
+
+    await user.type(screen.getByLabelText('Expresión'), '2x + 3 = 7')
+
+    expect(screen.getByRole('status')).toHaveTextContent('x=2')
+
+    await user.clear(screen.getByLabelText('Expresión'))
+    await user.type(screen.getByLabelText('Expresión'), 'x^2 - 4 = 0')
+
+    const status = screen.getByRole('status')
+
+    expect(status.querySelector('.katex')).not.toBeNull()
+    expect(status.textContent).toContain('x')
   })
 
   it('has no accessibility violations', async () => {

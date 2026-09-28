@@ -24,7 +24,6 @@ export const TOOLS = [
   'rect',
   'circle',
   'text',
-  'math',
   'pan',
 ] as const
 
@@ -40,7 +39,6 @@ export const TOOL_SHORTCUTS: Record<ToolId, string> = {
   rect: 'R',
   circle: 'C',
   text: 'T',
-  math: 'M',
   pan: 'O',
 }
 
@@ -77,7 +75,14 @@ export interface TextObject extends BoardObjectBase {
 export interface MathObject extends BoardObjectBase {
   kind: 'math'
   position: Point
+  /** LaTeX rendered on the board. */
   latex: string
+  /** Original keyboard input (plain notation) when created from the notepad. */
+  source?: string | undefined
+  /** Order inside the keyboard notepad. */
+  entryIndex?: number | undefined
+  /** Auto-laid-out entries keep their slot; dragging makes a position free. */
+  positionMode?: 'auto' | 'free' | undefined
   fontSize: number
 }
 

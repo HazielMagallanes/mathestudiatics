@@ -100,6 +100,9 @@
     "steps": "Ver resolución",
     "seed": "Semilla",
     "combined": "Combinado",
+    "pin": "Fijar en la pizarra",
+    "pinned": "Ejercicio fijado",
+    "pinAndGo": "Fijar e ir a la pizarra",
     "geogebra": "Abrir GeoGebra",
     "board": "Pizarra",
     "calculator": "Calculadora",
@@ -154,6 +157,12 @@
     "memoryRecall": "MR",
     "memoryClear": "MC",
     "equals": "Calcular",
+    "equationsHint": "También resuelve ecuaciones con x: 2x + 3 = 7, x^2 - 4 = 0.",
+    "solutions": {
+      "none": "La ecuación no tiene solución.",
+      "infinite": "La ecuación tiene infinitas soluciones.",
+      "noReal": "La ecuación no tiene soluciones reales."
+    },
     "history": "Historial",
     "historyEmpty": "Todavía no hay cálculos.",
     "reuse": "Reusar",
@@ -179,7 +188,8 @@
       "divisionByZero": "No se puede dividir por cero.",
       "domain": "El valor está fuera del dominio de la función.",
       "overflow": "El resultado es demasiado grande.",
-      "limit": "La expresión es demasiado larga."
+      "limit": "La expresión es demasiado larga.",
+      "unsupported": "No se puede resolver automáticamente: probá con una ecuación lineal o cuadrática."
     }
   },
   "whiteboard": {
@@ -198,8 +208,22 @@
       "rect": "Rectángulo",
       "circle": "Círculo",
       "text": "Texto",
-      "math": "Fórmula",
       "pan": "Mover vista"
+    },
+    "notepad": {
+      "title": "Escritura matemática",
+      "hint": "Escribí un paso por línea y apretá Enter: se renderiza al instante y queda en el tablero, arriba a la izquierda. ↑/↓ para moverte, clic para editar, Ctrl+Retroceso para borrar.",
+      "empty": "Todavía no hay líneas. Escribí tu primer paso abajo.",
+      "lineLabel": "Línea {{index}}",
+      "newLineLabel": "Nueva línea",
+      "placeholder": "Por ejemplo: 1/2 + 3/4  ó  x^2 - 4 = 0",
+      "deleteLine": "Borrar la línea {{index}}"
+    },
+    "calculatorPanel": "Calculadora",
+    "pinned": {
+      "title": "Ejercicio fijado",
+      "openInPractice": "Ver en práctica",
+      "unpin": "Quitar"
     },
     "color": "Color",
     "strokeWidth": "Grosor",

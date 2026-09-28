@@ -49,6 +49,10 @@ class Evaluator {
       case 'number':
         return { value: node.value }
 
+      case 'variable':
+        // The numeric evaluator cannot resolve x; the polynomial path does.
+        return { error: { code: 'unsupported' } }
+
       case 'constant':
         switch (node.name) {
           case 'pi':

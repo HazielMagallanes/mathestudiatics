@@ -33,6 +33,12 @@ import {
   type BoardHistory,
 } from '@/features/whiteboard/model/history'
 import {
+  keyboardEntries,
+  keyboardEntryPosition,
+  nextEntryIndex,
+  relayoutKeyboardEntries,
+} from '@/features/whiteboard/model/layout'
+import {
   BOARD_HEIGHT,
   BOARD_WIDTH,
   type Board,
@@ -43,10 +49,12 @@ import {
   type ToolId,
 } from '@/features/whiteboard/model/types'
 import { clearSavedBoard, loadBoard, saveBoard } from '@/features/whiteboard/storage'
+import { plainToLatex } from '@/shared/math/plain-to-latex'
 import { cn } from '@/shared/ui/cn'
 
 import { ARROW_MARKER_ID, ObjectView } from './BoardObjectView'
-import { MathScratchpad } from './MathScratchpad'
+import { MathNotepad, NOTEPAD_NEW_LINE_ID, type MathNotepadHandle } from './MathNotepad'
+import { TextScratchpad } from './TextScratchpad'
 import { WhiteboardToolbar, type GridStyle } from './WhiteboardToolbar'
 
 const MIN_VIEW_WIDTH = 240
@@ -95,15 +103,21 @@ export function Whiteboard({ className }: { className?: string }) {
   const [loaded, setLoaded] = useState(false)
   const [status, setStatus] = useState<string | null>(null)
   const [text, setText] = useState('')
-  const [latex, setLatex] = useState('')
 
   const svgRef = useRef<SVGSVGElement | null>(null)
   const interaction = useRef<Interaction>(null)
   const spacePressed = useRef(false)
   const viewRef = useRef(view)
+  const boardRef = useRef<Board>(history.present)
+  const notepadRef = useRef<MathNotepadHandle | null>(null)
 
   const board = history.present
   const displayBoard = preview ?? board
+  const notepadEntries = keyboardEntries(board)
+
+  useEffect(() => {
+    boardRef.current = board
+  }, [board])
 
   useEffect(() => {
     viewRef.current = view
@@ -134,12 +148,34 @@ export function Whiteboard({ className }: { className?: string }) {
 
     const timeout = window.setTimeout(() => {
       void saveBoard(board)
-    }, 600)
+    }, 300)
 
     return () => {
       window.clearTimeout(timeout)
     }
   }, [board, loaded])
+
+  // Never lose work when leaving the page, switching tabs or closing the app.
+  useEffect(() => {
+    const flush = (): void => {
+      void saveBoard(boardRef.current)
+    }
+
+    const onVisibilityChange = (): void => {
+      if (document.visibilityState === 'hidden') {
+        flush()
+      }
+    }
+
+    window.addEventListener('beforeunload', flush)
+    document.addEventListener('visibilitychange', onVisibilityChange)
+
+    return () => {
+      window.removeEventListener('beforeunload', flush)
+      document.removeEventListener('visibilitychange', onVisibilityChange)
+      flush()
+    }
+  }, [])
 
   const commitBoard = useCallback((next: Board) => {
     setHistory((current) => commit(current, next))
@@ -271,12 +307,6 @@ export function Whiteboard({ className }: { className?: string }) {
     if (tool === 'text' && text.trim().length > 0) {
       commitBoard(addObject(board, createText(point, text.trim(), { color })))
       setText('')
-      return
-    }
-
-    if (tool === 'math' && latex.trim().length > 0) {
-      commitBoard(addObject(board, createMath(point, latex.trim())))
-      setLatex('')
     }
   }
 
@@ -361,9 +391,17 @@ export function Whiteboard({ className }: { className?: string }) {
       return
     }
 
-    // Only a move interaction can reach this point.
-    if (preview) {
-      commitBoard(preview)
+    if (active.kind === 'move' && preview) {
+      const movedObject = findObject(preview, active.origin.id)
+      // A dragged keyboard entry keeps its new position.
+      const next =
+        movedObject?.kind === 'math' && movedObject.entryIndex !== undefined
+          ? updateObject(preview, movedObject.id, (object) =>
+              object.kind === 'math' ? { ...object, positionMode: 'free' as const } : object,
+            )
+          : preview
+
+      commitBoard(next)
     }
 
     setPreview(null)
@@ -478,13 +516,16 @@ export function Whiteboard({ className }: { className?: string }) {
         r: 'rect',
         c: 'circle',
         t: 'text',
-        m: 'math',
         o: 'pan',
       }
       const nextTool = toolByKey[key]
 
       if (nextTool) {
         setTool(nextTool)
+      }
+
+      if (key === 'n') {
+        document.getElementById(NOTEPAD_NEW_LINE_ID)?.focus()
       }
     }
 
@@ -520,15 +561,45 @@ export function Whiteboard({ className }: { className?: string }) {
     setText('')
   }
 
-  const addMathToBoard = () => {
-    const value = latex.trim()
+  const handleNotepadCommit = (entryId: string | null, source: string): void => {
+    const latex = plainToLatex(source)
 
-    if (value.length === 0) {
+    if (latex.length === 0) {
       return
     }
 
-    commitBoard(addObject(board, createMath(centerOfView(), value)))
-    setLatex('')
+    if (entryId) {
+      commitBoard(
+        updateObject(board, entryId, (object) =>
+          object.kind === 'math' ? { ...object, source, latex } : object,
+        ),
+      )
+      return
+    }
+
+    const index = nextEntryIndex(board)
+    const entry = createMath(keyboardEntryPosition(index), latex, {
+      source,
+      entryIndex: index,
+      positionMode: 'auto',
+    })
+
+    commitBoard(relayoutKeyboardEntries(addObject(board, entry)))
+  }
+
+  const handleNotepadRemove = (entryId: string): void => {
+    commitBoard(relayoutKeyboardEntries(removeObject(board, entryId)))
+    setSelectedId((current) => (current === entryId ? null : current))
+  }
+
+  const handleBoardDoubleClick = (event: React.MouseEvent<SVGSVGElement>): void => {
+    const point = clientToBoard(event.clientX, event.clientY)
+    const tolerance = boardTolerance()
+    const hit = [...board.objects].reverse().find((object) => hitTest(object, point, tolerance))
+
+    if (hit?.kind === 'math' && hit.entryIndex !== undefined) {
+      notepadRef.current?.focusEntry(hit.id)
+    }
   }
 
   const exportSvg = () => {
@@ -666,14 +737,14 @@ export function Whiteboard({ className }: { className?: string }) {
         onExportPng={exportPng}
       />
 
-      <MathScratchpad
-        text={text}
-        latex={latex}
-        onTextChange={setText}
-        onLatexChange={setLatex}
-        onAddText={addTextToBoard}
-        onAddMath={addMathToBoard}
+      <MathNotepad
+        ref={notepadRef}
+        entries={notepadEntries}
+        onCommit={handleNotepadCommit}
+        onRemove={handleNotepadRemove}
       />
+
+      <TextScratchpad text={text} onTextChange={setText} onAddText={addTextToBoard} />
 
       <p className="text-xs text-fg-muted">{t('whiteboard.instructions')}</p>
 
@@ -692,6 +763,7 @@ export function Whiteboard({ className }: { className?: string }) {
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
         onPointerLeave={handlePointerUp}
+        onDoubleClick={handleBoardDoubleClick}
         onContextMenu={(event) => {
           event.preventDefault()
         }}

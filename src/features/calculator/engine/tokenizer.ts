@@ -1,4 +1,5 @@
-export type CalculatorErrorCode = 'syntax' | 'divisionByZero' | 'domain' | 'overflow' | 'limit'
+export type CalculatorErrorCode =
+  'syntax' | 'divisionByZero' | 'domain' | 'overflow' | 'limit' | 'unsupported'
 
 export interface CalculatorError {
   code: CalculatorErrorCode
@@ -7,7 +8,7 @@ export interface CalculatorError {
 }
 
 export type TokenType =
-  'number' | 'operator' | 'function' | 'constant' | 'lparen' | 'rparen' | 'factorial'
+  'number' | 'operator' | 'function' | 'constant' | 'variable' | 'lparen' | 'rparen' | 'factorial'
 
 export interface Token {
   type: TokenType
@@ -109,6 +110,8 @@ export function tokenize(input: string): { tokens: Token[] } | { error: Calculat
         tokens.push({ type: 'function', value: word, position: index })
       } else if (CONSTANTS.has(word)) {
         tokens.push({ type: 'constant', value: word, position: index })
+      } else if (word === 'x') {
+        tokens.push({ type: 'variable', value: 'x', position: index })
       } else {
         return { error: { code: 'syntax', position: index } }
       }

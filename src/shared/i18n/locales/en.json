@@ -100,6 +100,9 @@
     "steps": "Show solution",
     "seed": "Seed",
     "combined": "Combined",
+    "pin": "Pin to whiteboard",
+    "pinned": "Pinned to whiteboard",
+    "pinAndGo": "Pin and go to whiteboard",
     "geogebra": "Open GeoGebra",
     "board": "Whiteboard",
     "calculator": "Calculator",
@@ -154,6 +157,12 @@
     "memoryRecall": "MR",
     "memoryClear": "MC",
     "equals": "Evaluate",
+    "equationsHint": "It also solves equations with x: 2x + 3 = 7, x^2 - 4 = 0.",
+    "solutions": {
+      "none": "The equation has no solution.",
+      "infinite": "The equation has infinitely many solutions.",
+      "noReal": "The equation has no real solutions."
+    },
     "history": "History",
     "historyEmpty": "No calculations yet.",
     "reuse": "Reuse",
@@ -179,7 +188,8 @@
       "divisionByZero": "Division by zero is not allowed.",
       "domain": "The value is outside the domain of the function.",
       "overflow": "The result is too large.",
-      "limit": "The expression is too long."
+      "limit": "The expression is too long.",
+      "unsupported": "It cannot be solved automatically: try a linear or quadratic equation."
     }
   },
   "whiteboard": {
@@ -198,8 +208,22 @@
       "rect": "Rectangle",
       "circle": "Circle",
       "text": "Text",
-      "math": "Formula",
       "pan": "Pan"
+    },
+    "notepad": {
+      "title": "Math typing",
+      "hint": "Type one step per line and press Enter: it renders instantly and lands on the board, top-left. ↑/↓ to move, click to edit, Ctrl+Backspace to delete.",
+      "empty": "No lines yet. Type your first step below.",
+      "lineLabel": "Line {{index}}",
+      "newLineLabel": "New line",
+      "placeholder": "For example: 1/2 + 3/4  or  x^2 - 4 = 0",
+      "deleteLine": "Delete line {{index}}"
+    },
+    "calculatorPanel": "Calculator",
+    "pinned": {
+      "title": "Pinned exercise",
+      "openInPractice": "Open in practice",
+      "unpin": "Unpin"
     },
     "color": "Color",
     "strokeWidth": "Width",

@@ -1,16 +1,15 @@
+import type { TFunction } from 'i18next'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import {
-  evaluateExpression,
-  type AngleMode,
-  type EvaluationContext,
-} from '@/features/calculator/engine/evaluate'
-import { formatNumber } from '@/features/calculator/engine/format'
+import { formatNumber, formatValue } from '@/features/calculator/engine/format'
+import { evaluateInput, type CalculatorOutcome } from '@/features/calculator/engine/input'
+import type { AngleMode, EvaluationContext } from '@/features/calculator/engine/evaluate'
 import type { CalculatorErrorCode } from '@/features/calculator/engine/tokenizer'
 import { readLocalStorage, writeLocalStorage } from '@/shared/storage/local-storage'
 import { buttonGhost, buttonSecondary } from '@/shared/ui/buttons'
 import { cn } from '@/shared/ui/cn'
+import { MathText } from '@/shared/ui/MathText'
 
 const HISTORY_STORAGE_KEY = 'mathestudiatics.calculator.history'
 const HISTORY_LIMIT = 20
@@ -41,7 +40,6 @@ interface KeypadButton {
   label: string
   insert: string
   ariaLabelKey?: KeyLabelKey
-  className?: string
 }
 
 const KEYPAD: readonly KeypadButton[][] = [
@@ -76,7 +74,7 @@ const KEYPAD: readonly KeypadButton[][] = [
   [
     { label: '0', insert: '0' },
     { label: ',', insert: ',', ariaLabelKey: 'decimal' },
-    { label: 'π', insert: 'pi' },
+    { label: 'x', insert: 'x' },
     { label: '+', insert: '+', ariaLabelKey: 'add' },
     { label: 'n!', insert: '!', ariaLabelKey: 'factorial' },
   ],
@@ -92,7 +90,7 @@ const KEYPAD: readonly KeypadButton[][] = [
     { label: 'cos⁻¹', insert: 'acos(', ariaLabelKey: 'acos' },
     { label: 'tan⁻¹', insert: 'atan(', ariaLabelKey: 'atan' },
     { label: 'e', insert: 'e' },
-    { label: 'ANS', insert: 'ans' },
+    { label: 'π', insert: 'pi' },
   ],
 ]
 
@@ -124,6 +122,57 @@ function readStoredHistory(): HistoryItem[] {
   }
 }
 
+interface OutcomeView {
+  /** LaTeX rendered as the result, when there is something to show. */
+  latex?: string
+  /** Plain message (errors, notes) instead of math. */
+  message?: string
+  /** `≈` line for irrational results. */
+  approximation?: string
+}
+
+function describeOutcome(outcome: CalculatorOutcome, t: TFunction): OutcomeView {
+  switch (outcome.kind) {
+    case 'value': {
+      const formatted = formatValue(outcome.value)
+
+      return formatted.exact
+        ? { latex: formatted.latex }
+        : { latex: `\\approx ${formatted.latex}`, approximation: formatted.latex }
+    }
+    case 'symbolic':
+      return { latex: outcome.latex }
+    case 'equation': {
+      const { solution } = outcome
+
+      if (solution.kind === 'none') {
+        return { message: t('calculator.solutions.none') }
+      }
+
+      if (solution.kind === 'infinite') {
+        return { message: t('calculator.solutions.infinite') }
+      }
+
+      if (solution.kind === 'no-real') {
+        return { message: t('calculator.solutions.noReal') }
+      }
+
+      if (!solution.exact && solution.approximations.length > 0) {
+        return {
+          latex: solution.latex,
+          approximation: solution.approximations
+            .map((value) => value.toPrecision(10).replace(/0+$/, ''))
+            .join(',\\; '),
+        }
+      }
+
+      return { latex: solution.latex }
+    }
+    case 'error':
+      return { message: t(`calculator.errors.${outcome.error.code}`) }
+  }
+}
+
 export function Calculator({ className }: { className?: string }) {
   const { t } = useTranslation()
   const [expression, setExpression] = useState('')
@@ -137,10 +186,11 @@ export function Calculator({ className }: { className?: string }) {
     () => ({ angleMode, ans, memory }),
     [angleMode, ans, memory],
   )
-  const preview = useMemo(
-    () => (expression.trim().length > 0 ? evaluateExpression(expression, context) : null),
+  const outcome = useMemo(
+    () => (expression.trim().length > 0 ? evaluateInput(expression, context) : null),
     [expression, context],
   )
+  const view = useMemo(() => (outcome ? describeOutcome(outcome, t) : null), [outcome, t])
 
   useEffect(() => {
     writeLocalStorage(HISTORY_STORAGE_KEY, JSON.stringify(history))
@@ -168,21 +218,22 @@ export function Calculator({ className }: { className?: string }) {
   }
 
   const submit = (): void => {
-    if (expression.trim().length === 0) {
+    if (expression.trim().length === 0 || !outcome || outcome.kind === 'error') {
       return
     }
 
-    const result = evaluateExpression(expression, context)
+    const shown = describeOutcome(outcome, t)
+    const resultText = shown.latex ?? shown.message ?? ''
 
-    if (!result.ok) {
-      return
+    if (outcome.kind === 'value') {
+      setAns(outcome.value)
+      // Keep chaining with plain notation (LaTeX is only for display).
+      setExpression(formatNumber(outcome.value))
     }
 
-    const formatted = formatNumber(result.value)
-
-    setAns(result.value)
-    setHistory((current) => [{ expression, result: formatted }, ...current].slice(0, HISTORY_LIMIT))
-    setExpression(formatted)
+    setHistory((current) =>
+      [{ expression, result: resultText }, ...current].slice(0, HISTORY_LIMIT),
+    )
   }
 
   const clearAll = (): void => {
@@ -220,27 +271,35 @@ export function Calculator({ className }: { className?: string }) {
   }
 
   const applyMemory = (operation: 'add' | 'subtract' | 'recall' | 'clear'): void => {
+    const numeric = outcome?.kind === 'value' ? outcome.value : null
+
     switch (operation) {
       case 'add':
-        if (preview?.ok) {
-          setMemory((current) => current + preview.value)
+        if (numeric !== null) {
+          setMemory((current) => current + numeric)
         }
         return
       case 'subtract':
-        if (preview?.ok) {
-          setMemory((current) => current - preview.value)
+        if (numeric !== null) {
+          setMemory((current) => current - numeric)
         }
         return
       case 'recall':
-        insert(formatNumber(memory))
+        insert(formatValue(memory).latex.replace('\\frac', '\\frac'))
         return
       case 'clear':
         setMemory(0)
     }
   }
 
-  const errorCode: CalculatorErrorCode | null = preview && !preview.ok ? preview.error.code : null
-  const resultText = preview?.ok ? formatNumber(preview.value) : ''
+  const errorCode: CalculatorErrorCode | null =
+    outcome?.kind === 'error' ? outcome.error.code : null
+
+  const resultContent =
+    errorCode !== null
+      ? t(`calculator.errors.${errorCode}`)
+      : (view?.message ??
+        (view?.latex ? <MathText text={`$${view.latex}$`} className="text-lg" /> : null))
 
   return (
     <div className={cn('space-y-4', className)}>
@@ -272,14 +331,14 @@ export function Calculator({ className }: { className?: string }) {
           className="border-rule bg-surface w-full rounded-md border px-3 py-2 font-mono text-lg"
         />
 
-        <div className="flex items-center justify-between gap-3 text-sm">
+        <div className="flex items-start justify-between gap-3 text-sm">
           <span className="text-fg-muted">{t('calculator.result')}</span>
           <span
             role="status"
             aria-live="polite"
-            className={cn('font-mono text-lg', errorCode ? 'text-accent' : 'text-fg')}
+            className={cn('text-right', errorCode ? 'text-accent' : 'text-fg')}
           >
-            {errorCode ? t(`calculator.errors.${errorCode}`) : resultText}
+            {resultContent}
           </span>
         </div>
 
@@ -311,7 +370,7 @@ export function Calculator({ className }: { className?: string }) {
           </fieldset>
 
           <span className="text-fg-muted" aria-live="polite">
-            {t('calculator.memory')}: {memory !== 0 ? formatNumber(memory) : '—'}
+            {t('calculator.memory')}: {memory !== 0 ? formatValue(memory).latex : '—'}
           </span>
 
           <span className="flex gap-1">
@@ -385,6 +444,8 @@ export function Calculator({ className }: { className?: string }) {
         <button type="button" className={cn(buttonSecondary, 'w-full')} onClick={submit}>
           {t('calculator.equals')}
         </button>
+
+        <p className="text-xs text-fg-muted">{t('calculator.equationsHint')}</p>
       </div>
 
       <details className="border-rule bg-surface-raised rounded-lg border p-4">
@@ -408,7 +469,7 @@ export function Calculator({ className }: { className?: string }) {
                 </button>
                 <span className="font-mono text-xs text-fg-muted">{item.expression}</span>
                 <span aria-hidden="true">=</span>
-                <span className="font-mono">{item.result}</span>
+                <MathText text={`$${item.result}$`} />
               </li>
             ))}
           </ul>
